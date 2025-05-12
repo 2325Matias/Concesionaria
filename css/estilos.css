@@ -1,0 +1,70 @@
+/* Estilos personalizados */
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+#inicio {
+    background-image: url('../img/v2.png'); /* Opcional: una imagen de fondo sutil */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding-top: 19rem !important;
+    padding-bottom: 3rem !important;
+}
+
+#inicio h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+#catalogo-autos .card {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#catalogo-autos .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+#catalogo-autos .card-body {
+    padding: 1rem;
+}
+
+#catalogo-autos .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+#catalogo-autos .card-text {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#catalogo-autos .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+#catalogo-autos .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+#servicios .card {
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#servicios .card-title i {
+    color: #007bff;
+}
+
+#contacto label {
+    font-weight: bold;
+}
+
+footer {
+    position: relative; /* Para el icono de volver arriba si se implementa */
+}

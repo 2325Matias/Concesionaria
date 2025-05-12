@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tu Concesionaria de Confianza</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body>
+
+
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.png" alt="Logo de la Concesionaria" height="30" class="d-inline-block align-text-top">
+                "Premium Quality"
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#catalogo">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header id="inicio" class="bg-light mt-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1>Encuentra el Auto de tus Sueños</h1>
+                    <p class="lead">La mejor selección de vehículos nuevos y usados con las mejores opciones de financiación.</p>
+                    <a href="#catalogo" class="btn btn-primary btn-lg">Ver Nuestro Catálogo</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="" alt="Banner de la Concesionaria" class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-4">Nuestro Catálogo de Vehículos</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="catalogo-autos">
+                </div>
+            <div class="text-center mt-4">
+                <button id="cargar-mas" class="btn btn-outline-secondary">Cargar Más Vehículos</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Nuestros Servicios</h2>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-car me-2"></i> Venta de Vehículos Nuevos y Usados</h5>
+                            <p class="card-text">Amplia variedad de modelos para que encuentres el perfecto para ti.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-coins me-2"></i> Financiación a tu Medida</h5>
+                            <p class="card-text">Opciones de financiación flexibles para que puedas adquirir tu auto fácilmente.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-tools me-2"></i> Servicio Técnico Especializado</h5>
+                            <p class="card-text">Mantenimiento y reparación de vehículos con técnicos expertos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-file-contract me-2"></i> Gestión de Documentación</h5>
+                            <p class="card-text">Te ayudamos con todos los trámites necesarios para la compra de tu vehículo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-4">¡Contáctanos!</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form id="formulario-contacto">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="Tu nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Tu correo electrónico">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu consulta"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                        <div id="mensaje-respuesta" class="mt-3 text-success" style="display: none;">¡Mensaje enviado! Nos pondremos en contacto pronto.</div>
+                        <div id="mensaje-error" class="mt-3 text-danger" style="display: none;">Hubo un error al enviar el mensaje. Intenta nuevamente.</div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-center">
+                    <h4>Visítanos</h4>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Calle Falsa 123, Buenos Aires, Argentina</p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <h4>Llámanos</h4>
+                    <p><i class="fas fa-phone me-2"></i> +54 9 11 1234-5678</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@tuconcesionaria.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 Tu Concesionaria. Todos los derechos reservados.</p>
+            <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
