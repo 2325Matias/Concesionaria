@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     const catalogoAutos = document.getElementById('catalogo-autos');
-    const cargarMasBtn = document.getElementById('cargar-mas');
     const formularioContacto = document.getElementById('formulario-contacto');
     const mensajeRespuesta = document.getElementById('mensaje-respuesta');
     const mensajeError = document.getElementById('mensaje-error');
@@ -75,10 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     mostrarAutos(autosMostradosInicialmente);
-
-    cargarMasBtn.addEventListener('click', function() {
-        mostrarAutos(3); // Cargar 3 autos más por cada clic
-    });
 
     formularioContacto.addEventListener('submit', function(event) {
         event.preventDefault();

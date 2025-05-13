@@ -1,0 +1,13 @@
+/* Estilos personalizados */
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.employee-actions {
+    padding: 20px;
+    text-align: left;
+}
+
+.employee-table {
+    padding: 20px;
+}
