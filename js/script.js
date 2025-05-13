@@ -16,30 +16,30 @@ document.addEventListener('DOMContentLoaded', function() {
             nombre: 'SUV Familiar',
             descripcion: 'Espaciosa SUV ideal para familias y aventuras.',
             imagen: 'img/autos/t-cros/1.png',
-            precio: '$42.000'
+            precio: '$33.000.000'
         },
         {
             nombre: 'Deportivo Clásico',
             descripcion: 'Un deportivo icónico para los amantes de la velocidad.',
-            imagen: 'img/auto3.jpg',
-            precio: '$60.000'
+            imagen: 'img/autos/gol gti/gol gti imagen.jpg',
+            precio: '$55.000.000'
         },
         {
             nombre: 'Hatchback Urbano',
             descripcion: 'Compacto y ágil, perfecto para la ciudad.',
-            imagen: 'img/auto4.jpg',
-            precio: '$22.000'
+            imagen: 'img/autos/punto/v1 redi.jpg',
+            precio: '$18.000.000'
         },
         {
             nombre: 'Camioneta Robusta',
             descripcion: 'Potente y resistente, lista para cualquier desafío.',
-            imagen: 'img/auto5.jpg',
+            imagen: 'img/autos/amarok/v1.jpg',
             precio: '$48.000'
         },
         {
             nombre: 'Eléctrico Eco-Friendly',
             descripcion: 'Un vehículo eléctrico con cero emisiones y diseño moderno.',
-            imagen: 'img/auto6.jpg',
+            imagen: 'img/autos/kwid/v1.jpg',
             precio: '$55.000'
         },
         // Puedes agregar más autos aquí

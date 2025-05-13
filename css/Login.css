@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,800;1,800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ROOT */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* CALCULA EL ALTO Y ANCHO DEL ELEMENTO DEPENDIENTO EL ALTO Y ANCHO DEL HIJO SIN CONTAR MARGIN Y PADDING */
+    font-family: 'Poppins', sans-serif; /* ESTABLECE EL FONT FAMILY DE TODA LA PAGINA */
+}
+
+body {
+    background: url('../img/login.jpeg') no-repeat; /* BACKGROUND IMAGEN NO REPETIDA */
+    background-size: cover;  /*IMAGEN ADAPTADO AL CONTENEDOR */
+    background-position: center; /* POSICION CENTRADA DE LA IMAGEN DENTRO DEL IMG*/ 
+} 
+
+.box {
+  width: 420px;
+  background: transparent; /* FONDO TRANSPARENTE */
+  border: 2px solid rgba(30, 3, 148, 0.2); /* BORDE CLARO SEMITRANSPARENTE */
+  backdrop-filter: blur(20px); /* FONDO CON EFECTO DESENFOQUE */
+  box-shadow: 0 0 60px rgba(0, 0, 0, .2); /* SOMBRA OSCURA SEMITRANSPARENTE */
+  color: #020202;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.box .logo { 
+    font-size: 2em;
+    text-align: center;
+}
+
+.box button {
+    width: 100%;
+    height: 45px;
+    margin: .5rem;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1); /* SOMBRA DEL ELEMENTO, OSCURO CASI TRANSPARENTE */
+    cursor: pointer;
+    font-size: 1em;
+    color: #333;
+    font-weight: 600;
+    transition: 0.5s; /* CUALQUIER CAMBIO EN EL DISEÑO SE REALIZA EN 0.5 SEGUNDOS EN EFECTO TRANSICION */
+}
+
+.box button:hover {
+    background: rgb(80, 98, 230);
+    color: #fff;
+}
