@@ -9,7 +9,7 @@
 }
 
 body {
-    background: url('../img/login.jpeg') no-repeat; /* BACKGROUND IMAGEN NO REPETIDA */
+    background: url('../img/login.jpeg.jpg') no-repeat; /* BACKGROUND IMAGEN NO REPETIDA */
     background-size: cover;  /*IMAGEN ADAPTADO AL CONTENEDOR */
     background-position: center; /* POSICION CENTRADA DE LA IMAGEN DENTRO DEL IMG*/ 
 } 

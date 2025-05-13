@@ -8,37 +8,37 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             nombre: 'Sedán Elegante',
             descripcion: 'Un sedán de lujo con gran confort y tecnología avanzada.',
-            imagen: 'img/autos/yaris/toyota yaris.jpg',
+            imagen: 'img/autos/yaris/toyota yaris.jpg.jpg',
             precio: '$29.741.000'
         },
         {
             nombre: 'SUV Familiar',
             descripcion: 'Espaciosa SUV ideal para familias y aventuras.',
-            imagen: 'img/autos/t-cros/1.png',
-            precio: '$33.000.000'
+            imagen: 'img/autos/t-cros/1.png.png',
+            precio: '$42.000'
         },
         {
             nombre: 'Deportivo Clásico',
             descripcion: 'Un deportivo icónico para los amantes de la velocidad.',
-            imagen: 'img/autos/gol gti/gol gti imagen.jpg',
-            precio: '$55.000.000'
+            imagen: 'img/autos/gol gti/gol gti imagen.jpg.webp',
+            precio: '$60.000'
         },
         {
             nombre: 'Hatchback Urbano',
             descripcion: 'Compacto y ágil, perfecto para la ciudad.',
-            imagen: 'img/autos/punto/v1 redi.jpg',
-            precio: '$18.000.000'
+            imagen: 'img/autos/punto/v1 redi.jpg.jpg',
+            precio: '$22.000'
         },
         {
             nombre: 'Camioneta Robusta',
             descripcion: 'Potente y resistente, lista para cualquier desafío.',
-            imagen: 'img/autos/amarok/v1.jpg',
+            imagen: 'img/autos/amarok/v1.jpg.jpg',
             precio: '$48.000'
         },
         {
             nombre: 'Eléctrico Eco-Friendly',
             descripcion: 'Un vehículo eléctrico con cero emisiones y diseño moderno.',
-            imagen: 'img/autos/kwid/v1.jpg',
+            imagen: 'img/autos/kwid/v1.jpg.webp',
             precio: '$55.000'
         },
         // Puedes agregar más autos aquí
@@ -64,12 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             catalogoAutos.innerHTML += tarjeta;
-        }
-        autosMostradosActual = Math.min(autosMostradosActual + cantidad, autos.length);
-        if (autosMostradosActual === autos.length) {
-            cargarMasBtn.style.display = 'none';
-        } else {
-            cargarMasBtn.style.display = 'block';
         }
     }
 
