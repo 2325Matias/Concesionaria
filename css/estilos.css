@@ -68,3 +68,24 @@
 footer {
     position: relative; /* Para el icono de volver arriba si se implementa */
 }
+
+/* Estilos para el Modal y Carousel */
+#detalleAutoModal .modal-lg {
+    max-width: 800px; /* Ajusta el ancho del modal si es necesario */
+}
+
+#modalCarouselInner .carousel-item img {
+    height: 350px; /* Altura deseada para las imágenes del carousel */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsionarse */
+    width: 100%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mejor visibilidad */
+    border-radius: 50%;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #007bff; /* Color de los indicadores */
+}

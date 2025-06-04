@@ -64,7 +64,7 @@
         <div class="container">
             <h2 class="text-center mb-4">Nuestro Catálogo de Vehículos</h2>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="catalogo-autos">
-            </div>
+                </div>
         </div>
     </section>
 
@@ -152,6 +152,39 @@
             </div>
         </div>
     </section>
+
+    <div class="modal fade" id="detalleAutoModal" tabindex="-1" aria-labelledby="detalleAutoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleAutoModalLabel">Detalles del Vehículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselAutoImagenes" class="carousel slide mb-4" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="modalCarouselInner">
+                            </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAutoImagenes" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselAutoImagenes" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                         <div class="carousel-indicators" id="modalCarouselIndicators">
+                            </div>
+                    </div>
+                    <h5 id="modalNombreAuto"></h5>
+                    <p id="modalDescripcionAuto"></p>
+                    <p id="modalPrecioAuto" class="fw-bold"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <footer class="bg-dark text-light py-4">
