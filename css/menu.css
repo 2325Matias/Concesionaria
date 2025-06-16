@@ -31,4 +31,11 @@
     text-align: center; /* Centrar el contenido de la columna de acción */
 }
 
+/* Estilos para separar los botones de acciones de empleados */
+.employee-actions .btn {
+    margin-right: 10px; /* Ajusta este valor para controlar el espacio */
+}
+
+.employee-actions .btn:last-child {
+    margin-right: 0; /* Elimina el margen del último botón */
 }

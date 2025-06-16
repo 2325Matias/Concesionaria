@@ -17,10 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (link.getAttribute('href') === '#empleados-section') {
                 event.preventDefault();
                 empleadosSection.style.display = 'block';
+                renderizarEmpleados(inputBusquedaEmpleado.value); // Llama a la función para renderizar empleados cuando se hace clic
             } else if (link.getAttribute('href') === '#ventas-section') {
                 event.preventDefault();
                 ventasSection.style.display = 'block';
-                renderizarVentas(); // Llama a la función para renderizar ventas cuando se hace clic
+                renderizarVentas(inputBusquedaVenta.value); // Llama a la función para renderizar ventas cuando se hace clic
             }
 
             // Remover la clase 'active' de todos los enlaces y agregarla al actual
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ... (código existente de la sección de empleados sin cambios significativos) ...
+    // ... (código existente de la sección de empleados sin cambios significativos en la parte superior) ...
 
     const tablaEmpleadosBody = document.getElementById('tabla-empleados-body');
     const botonAgregar = document.getElementById('agregar-empleado');
@@ -50,19 +51,83 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputEditarUsuario = document.getElementById('editar-usuario');
     const inputEditarCorreo = document.getElementById('editar-correo');
     const inputEditarContrasena = document.getElementById('editar-contrasena');
+    const selectEditarRol = document.getElementById('editar-rol'); // Nuevo: campo de selección de rol para editar
     const botonGuardarCambios = document.getElementById('guardar-cambios-empleado');
 
     // Campos del modal Agregar (Empleados)
     const inputAgregarUsuario = document.getElementById('agregar-usuario');
     const inputAgregarCorreo = document.getElementById('agregar-correo');
     const inputAgregarContrasena = document.getElementById('agregar-contrasena');
+    const selectAgregarRol = document.getElementById('agregar-rol'); // Nuevo: campo de selección de rol para agregar
     const botonGuardarNuevoEmpleado = document.getElementById('guardar-nuevo-empleado');
+
+    const inputBusquedaEmpleado = document.getElementById('busqueda-empleado'); // Nuevo: Campo de búsqueda para empleados
 
     let empleadoSeleccionadoCheckbox = null;
     let empleadoSeleccionadoFila = null;
-    let nextIdEmpleado = tablaEmpleadosBody.querySelectorAll('tr').length + 1;
+    // La lista de empleados debe ser un array para facilitar la manipulación
+    // Inicializamos con los datos que ya tenías en el HTML
+    const empleadosData = Array.from(tablaEmpleadosBody.querySelectorAll('tr')).map(row => {
+        const checkbox = row.querySelector('.select-empleado');
+        return {
+            id: parseInt(checkbox.dataset.id),
+            usuario: checkbox.dataset.usuario,
+            correo: checkbox.dataset.correo,
+            contrasena: checkbox.dataset.contrasena, // En un sistema real, no guardarías la contraseña en el DOM
+            rol: checkbox.dataset.rol
+        };
+    });
+    let nextIdEmpleado = empleadosData.length > 0 ? Math.max(...empleadosData.map(e => e.id)) + 1 : 1;
 
-    // Funciones y eventos de Empleados (sin cambios)
+
+    // Función para renderizar la tabla de empleados
+    function renderizarEmpleados(filtro = '') { // Se agregó el parámetro 'filtro'
+        tablaEmpleadosBody.innerHTML = ''; // Limpiar filas existentes
+        const textoFiltro = filtro.toLowerCase(); // Convertir filtro a minúsculas para la búsqueda
+
+        const empleadosFiltrados = empleadosData.filter(empleado => { // Filtrar empleados
+            return (
+                empleado.usuario.toLowerCase().includes(textoFiltro) || // Buscar por usuario
+                empleado.correo.toLowerCase().includes(textoFiltro) // Buscar por correo
+            );
+        });
+
+        if (empleadosFiltrados.length === 0 && textoFiltro !== '') { // Mensaje si no hay resultados y hay un filtro
+            const noResultsRow = tablaEmpleadosBody.insertRow(); //
+            noResultsRow.innerHTML = `<td colspan="5" class="text-center">No se encontraron empleados que coincidan con la búsqueda.</td>`; //
+            return; //
+        }
+
+        empleadosFiltrados.forEach(empleado => { // Iterar sobre los empleados filtrados
+            const newRow = tablaEmpleadosBody.insertRow();
+            const checkboxCell = newRow.insertCell();
+            const usuarioCell = newRow.insertCell();
+            const correoCell = newRow.insertCell();
+            const contrasenaCell = newRow.insertCell();
+            const rolCell = newRow.insertCell(); // Celda para el rol
+
+            const newCheckbox = document.createElement('input');
+            newCheckbox.type = 'checkbox';
+            newCheckbox.classList.add('form-check-input', 'me-2', 'select-empleado');
+            newCheckbox.dataset.id = empleado.id;
+            newCheckbox.dataset.usuario = empleado.usuario;
+            newCheckbox.dataset.correo = empleado.correo;
+            newCheckbox.dataset.contrasena = empleado.contrasena;
+            newCheckbox.dataset.rol = empleado.rol; // Guardar el rol en el dataset del checkbox
+
+            checkboxCell.appendChild(newCheckbox);
+            usuarioCell.textContent = empleado.usuario;
+            correoCell.textContent = empleado.correo;
+            contrasenaCell.textContent = '****';
+            rolCell.textContent = empleado.rol; // Mostrar el rol en la celda
+        });
+    }
+
+    // Asegurarse de que la tabla de empleados se renderice al cargar la página
+    renderizarEmpleados();
+
+
+    // Funciones y eventos de Empleados
     function obtenerCheckboxesSeleccionados() {
         return Array.from(tablaEmpleadosBody.querySelectorAll('.select-empleado:checked'));
     }
@@ -71,12 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
         inputEditarUsuario.value = checkbox.dataset.usuario;
         inputEditarCorreo.value = checkbox.dataset.correo;
         inputEditarContrasena.value = checkbox.dataset.contrasena;
+        selectEditarRol.value = checkbox.dataset.rol; // Llenar el select de rol
         empleadoSeleccionadoCheckbox = checkbox;
         empleadoSeleccionadoFila = checkbox.closest('tr');
     }
 
     botonAgregar.addEventListener('click', () => {
         formAgregarEmpleado.reset();
+        selectAgregarRol.value = ''; // Asegurarse de que el select esté vacío
         modalAgregarEmpleado.show();
     });
 
@@ -84,26 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const nuevoUsuario = inputAgregarUsuario.value.trim();
         const nuevoCorreo = inputAgregarCorreo.value.trim();
         const nuevaContrasena = inputAgregarContrasena.value;
+        const nuevoRol = selectAgregarRol.value; // Obtener el rol
 
-        if (nuevoUsuario && nuevoCorreo && nuevaContrasena) {
-            const newRow = tablaEmpleadosBody.insertRow();
-            const checkboxCell = newRow.insertCell();
-            const usuarioCell = newRow.insertCell();
-            const correoCell = newRow.insertCell();
-            const contrasenaCell = newRow.insertCell();
-
-            const newCheckbox = document.createElement('input');
-            newCheckbox.type = 'checkbox';
-            newCheckbox.classList.add('form-check-input', 'me-2', 'select-empleado');
-            newCheckbox.dataset.id = nextIdEmpleado++;
-            newCheckbox.dataset.usuario = nuevoUsuario;
-            newCheckbox.dataset.correo = nuevoCorreo;
-            newCheckbox.dataset.contrasena = nuevaContrasena;
-
-            checkboxCell.appendChild(newCheckbox);
-            usuarioCell.textContent = nuevoUsuario;
-            correoCell.textContent = nuevoCorreo;
-            contrasenaCell.textContent = '****';
+        if (nuevoUsuario && nuevoCorreo && nuevaContrasena && nuevoRol) {
+            const nuevoEmpleado = {
+                id: nextIdEmpleado++,
+                usuario: nuevoUsuario,
+                correo: nuevoCorreo,
+                contrasena: nuevaContrasena,
+                rol: nuevoRol
+            };
+            empleadosData.push(nuevoEmpleado);
+            renderizarEmpleados(inputBusquedaEmpleado.value); // Volver a renderizar la tabla aplicando el filtro actual
 
             modalAgregarEmpleado.hide();
             formAgregarEmpleado.reset();
@@ -131,14 +190,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const nuevoUsuario = inputEditarUsuario.value.trim();
             const nuevoCorreo = inputEditarCorreo.value.trim();
             const nuevaContrasena = inputEditarContrasena.value;
+            const nuevoRol = selectEditarRol.value; // Obtener el rol editado
 
+            if (!nuevoUsuario || !nuevoCorreo || !nuevaContrasena || !nuevoRol) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            // Actualizar los datos del checkbox y la fila
             empleadoSeleccionadoCheckbox.dataset.usuario = nuevoUsuario;
             empleadoSeleccionadoCheckbox.dataset.correo = nuevoCorreo;
             empleadoSeleccionadoCheckbox.dataset.contrasena = nuevaContrasena;
+            empleadoSeleccionadoCheckbox.dataset.rol = nuevoRol; // Actualizar el rol
 
             empleadoSeleccionadoFila.cells[1].textContent = nuevoUsuario;
             empleadoSeleccionadoFila.cells[2].textContent = nuevoCorreo;
             empleadoSeleccionadoFila.cells[3].textContent = '****';
+            empleadoSeleccionadoFila.cells[4].textContent = nuevoRol; // Actualizar la celda del rol
+
+            // Actualizar el objeto en el array de datos
+            const empleadoId = parseInt(empleadoSeleccionadoCheckbox.dataset.id);
+            const index = empleadosData.findIndex(emp => emp.id === empleadoId);
+            if (index > -1) {
+                empleadosData[index] = {
+                    ...empleadosData[index], // Mantener otros datos si los hubiera
+                    usuario: nuevoUsuario,
+                    correo: nuevoCorreo,
+                    contrasena: nuevaContrasena,
+                    rol: nuevoRol
+                };
+            }
 
             modalEditarEmpleado.hide();
             empleadoSeleccionadoCheckbox = null;
@@ -153,9 +234,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (checkboxesSeleccionados.length > 0) {
             if (confirm('¿Estás seguro de que deseas eliminar los empleados seleccionados?')) {
+                // Eliminar del array de datos primero
                 checkboxesSeleccionados.forEach(checkbox => {
-                    checkbox.closest('tr').remove();
+                    const empleadoId = parseInt(checkbox.dataset.id);
+                    const index = empleadosData.findIndex(emp => emp.id === empleadoId);
+                    if (index > -1) {
+                        empleadosData.splice(index, 1);
+                    }
                 });
+                renderizarEmpleados(inputBusquedaEmpleado.value); // Luego volver a renderizar la tabla aplicando el filtro actual
+
                 alert('Empleados eliminados con éxito.');
             }
         } else {
@@ -163,7 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Ventas Section Logic ---
+    // Evento para el campo de búsqueda de Empleados
+    inputBusquedaEmpleado.addEventListener('keyup', () => {
+        renderizarEmpleados(inputBusquedaEmpleado.value);
+    });
+
+    // --- Ventas Section Logic --- (Sin cambios, se mantiene como estaba)
 
     // Datos de ventas de ejemplo
     const salesData = [
@@ -524,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formNuevaVenta.reset(); // Limpiar el formulario
     });
 
-    // Evento para el campo de búsqueda
+    // Evento para el campo de búsqueda de Ventas
     inputBusquedaVenta.addEventListener('keyup', () => {
         renderizarVentas(inputBusquedaVenta.value);
     });
