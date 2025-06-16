@@ -28,10 +28,10 @@
                         <a class="nav-link" href="#ventas-section">Ventas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#servicios">Taller</a>
+                        <a class="nav-link" href="#taller-section">Taller</a> 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Vehículos</a>
+                        <a class="nav-link" href="#vehiculos">Vehículos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Login.html">Accesorios</a>
@@ -316,8 +316,122 @@
         </div>
     </div>
 
+    <div class="container mt-5 pt-5" id="taller-section">
+        <h2>Listado de Órdenes de Taller</h2>
+        <div class="workshop-actions mb-3 d-flex align-items-center">
+            <button class="btn btn-primary btn-sm me-2" id="nueva-orden">Nueva Orden</button>
+            <input type="text" class="form-control form-control-sm w-25" id="busqueda-orden" placeholder="Buscar por N° Orden o Cliente">
+        </div>
+        <div class="workshop-table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>N° Orden</th>
+                        <th>Cliente</th>
+                        <th>Vehículo</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-ordenes-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="nuevaOrdenModal" tabindex="-1" aria-labelledby="nuevaOrdenModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaOrdenModalLabel">Registrar Nueva Orden de Taller</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-nueva-orden">
+                        <input type="hidden" id="orden-id-oculto">
+
+                        <div class="mb-3">
+                            <label for="n-orden-taller" class="form-label">N° Orden:</label>
+                            <input type="text" class="form-control" id="n-orden-taller" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="problema-reportado" class="form-label">Problema Reportado / Tipo de Servicio:</label>
+                            <textarea class="form-control" id="problema-reportado" rows="2" required></textarea>
+                        </div>
+
+                        <hr>
+                        <h5>Datos del Cliente</h5>
+                        <div class="mb-3">
+                            <label for="taller-cliente-nombre-completo" class="form-label">Nombre Completo:</label>
+                            <input type="text" class="form-control" id="taller-cliente-nombre-completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-cliente-dni" class="form-label">DNI:</label>
+                            <input type="text" class="form-control" id="taller-cliente-dni" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-cliente-correo" class="form-label">Correo:</label>
+                            <input type="email" class="form-control" id="taller-cliente-correo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-cliente-telefono" class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="taller-cliente-telefono" required>
+                        </div>
+
+                        <hr>
+                        <h5>Datos del Vehículo</h5>
+                        <div class="mb-3">
+                            <label for="taller-vehiculo-marca" class="form-label">Marca:</label>
+                            <input type="text" class="form-control" id="taller-vehiculo-marca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-vehiculo-modelo" class="form-label">Modelo:</label>
+                            <input type="text" class="form-control" id="taller-vehiculo-modelo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-vehiculo-patente" class="form-label">Patente:</label>
+                            <input type="text" class="form-control" id="taller-vehiculo-patente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taller-vehiculo-kilometraje" class="form-label">Kilometraje:</label>
+                            <input type="number" class="form-control" id="taller-vehiculo-kilometraje">
+                        </div>
+
+                        <hr>
+                        <h5>Detalles del Servicio</h5>
+                        <div class="mb-3">
+                            <label for="estado-orden" class="form-label">Estado:</label>
+                            <select class="form-select" id="estado-orden" required>
+                                <option value="">Seleccione un estado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Proceso">En Proceso</option>
+                                <option value="Completado">Completado</option>
+                                <option value="Entregado">Entregado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="observaciones-mecanico" class="form-label">Observaciones del Mecánico:</label>
+                            <textarea class="form-control" id="observaciones-mecanico" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mecanico-asignado" class="form-label">Mecánico Asignado:</label>
+                            <input type="text" class="form-control" id="mecanico-asignado">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="boton-guardar-cambios-orden">Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary" id="boton-cerrar-orden-modal" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script src="js/menu.js"></script>
-</body>
+    <script src="js/empleados.js"></script>
+    <script src="js/ventas.js"></script>
+    <script src="js/taller.js"></script> </body>
 </html>

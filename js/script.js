@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (contactSection) {
                     contactSection.scrollIntoView({ behavior: 'smooth' });
                 }
-            }, 150); // Puedes ajustar este tiempo si es necesario (ej. 100ms, 200ms)
+            }, 200); // Puedes ajustar este tiempo si es necesario (ej. 100ms, 200ms)
         });
     }
 
