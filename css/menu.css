@@ -11,3 +11,24 @@
 .employee-table {
     padding: 20px;
 }
+/* Estilos personalizados */
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.employee-actions, .sales-actions { /* Se añadió .sales-actions para consistencia si agregas botones más tarde */
+    padding: 20px;
+    text-align: left;
+}
+
+.employee-table, .sales-table { /* Se añadió .sales-table */
+    padding: 20px;
+}
+
+/* Nuevo estilo para que el botón "Ver" se ajuste al contenido del encabezado */
+.sales-table th:last-child,
+.sales-table td:last-child {
+    text-align: center; /* Centrar el contenido de la columna de acción */
+}
+
+}

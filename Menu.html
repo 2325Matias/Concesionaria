@@ -25,7 +25,7 @@
                         <a class="nav-link active" aria-current="page" href="#empleados-section">Empleados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#catalogo">Ventas</a>
+                        <a class="nav-link" href="#ventas-section">Ventas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#servicios">Taller</a>
@@ -145,7 +145,152 @@
             </div>
         </div>
     </div>
-</div>
+
+    <div class="container mt-5 pt-5" id="ventas-section"> <h2>Listado de Ventas</h2>
+        <div class="sales-actions mb-3">
+            <button class="btn btn-primary " id="nueva-venta">Nueva Venta</button>
+        </div>
+        <div class="sales-table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>N° Remito</th>
+                        <th>Cliente</th>
+                        <th>Referencia</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-ventas-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="nuevaVentaModal" tabindex="-1" aria-labelledby="nuevaVentaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaVentaModalLabel">Registrar Nueva Venta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-nueva-venta">
+                        <input type="hidden" id="venta-id-oculto">
+
+                        <div class="mb-3">
+                            <label for="remito-nueva-venta" class="form-label">N° Remito:</label>
+                            <input type="text" class="form-control" id="remito-nueva-venta" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="referencia-nueva-venta" class="form-label">Referencia:</label>
+                            <textarea class="form-control" id="referencia-nueva-venta" rows="2" required></textarea>
+                        </div>
+
+                        <hr>
+                        <h5>Datos del Cliente</h5>
+                        <div class="mb-3">
+                            <label for="cliente-nombre-completo" class="form-label">Nombre Completo:</label>
+                            <input type="text" class="form-control" id="cliente-nombre-completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cliente-dni" class="form-label">DNI:</label>
+                            <input type="text" class="form-control" id="cliente-dni" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cliente-correo" class="form-label">Correo:</label>
+                            <input type="email" class="form-control" id="cliente-correo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cliente-telefono" class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="cliente-telefono" required>
+                        </div>
+
+                        <hr>
+                        <h5>Detalles de la Operación</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Permuta:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="permuta" id="permuta-si" value="Sí" required>
+                                <label class="form-check-label" for="permuta-si">Sí</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="permuta" id="permuta-no" value="No" checked>
+                                <label class="form-check-label" for="permuta-no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="vehiculo-marca" class="form-label">Vehículo Comprado (Marca):</label>
+                            <input type="text" class="form-control" id="vehiculo-marca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vehiculo-modelo" class="form-label">Vehículo Comprado (Modelo):</label>
+                            <input type="text" class="form-control" id="vehiculo-modelo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vehiculo-color" class="form-label">Vehículo Comprado (Color):</label>
+                            <input type="text" class="form-control" id="vehiculo-color" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Financiación:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="financiacion" id="financiacion-si" value="Sí" required>
+                                <label class="form-check-label" for="financiacion-si">Sí</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="financiacion" id="financiacion-no" value="No" checked>
+                                <label class="form-check-label" for="financiacion-no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3" id="plan-financiacion-div" style="display:none;">
+                            <label class="form-label">Plan de Financiación:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tipo-financiacion" id="plan-90-10" value="Plan 90-10">
+                                <label class="form-check-label" for="plan-90-10">Plan 90-10</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tipo-financiacion" id="plan-70-30" value="Plan 70-30">
+                                <label class="form-check-label" for="plan-70-30">Plan 70-30</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="metodo-pago" class="form-label">Método de Pago:</label>
+                            <select class="form-select" id="metodo-pago" required>
+                                <option value="">Seleccione un método</option>
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Plan de Financiación">Plan de Financiación</option>
+                                <option value="Crédito">Crédito</option>
+                                <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                            </select>
+                        </div>
+
+                        <hr>
+                        <h5>Datos del Vendedor</h5>
+                        <div class="mb-3">
+                            <label for="vendedor-nombre-completo" class="form-label">Nombre Completo del Vendedor:</label>
+                            <input type="text" class="form-control" id="vendedor-nombre-completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vendedor-correo" class="form-label">Correo del Vendedor:</label>
+                            <input type="email" class="form-control" id="vendedor-correo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vendedor-telefono" class="form-label">Teléfono del Vendedor:</label>
+                            <input type="text" class="form-control" id="vendedor-telefono" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="boton-guardar-cambios-modal">Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary" id="boton-cerrar-modal" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script src="js/menu.js"></script>

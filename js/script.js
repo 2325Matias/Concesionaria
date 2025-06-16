@@ -5,18 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const mensajeError = document.getElementById('mensaje-error');
 
     // Referencias al Modal
-    const detalleAutoModal = new bootstrap.Modal(document.getElementById('detalleAutoModal'));
+    // Asegúrate de que esta línea esté presente para tener la instancia del modal de Bootstrap
+    const detalleAutoModal = new bootstrap.Modal(document.getElementById('detalleAutoModal')); 
     const modalNombreAuto = document.getElementById('modalNombreAuto');
     const modalDescripcionAuto = document.getElementById('modalDescripcionAuto');
     const modalPrecioAuto = document.getElementById('modalPrecioAuto');
     const modalCarouselInner = document.getElementById('modalCarouselInner');
     const modalCarouselIndicators = document.getElementById('modalCarouselIndicators');
 
+    // Obtener referencia al botón "Solicitar Info" del modal
+    const solicitarInfoBtn = document.getElementById('solicitarInfoBtn');
 
-    // --- DATOS DE AUTOS ---
-    // Asegúrate de que las rutas de las imágenes sean correctas y existan.
-    // He añadido campos 'imagenesDetalle' y 'descripcionDetallada'.
+
+    // --- DATOS DE AUTOS (tu array de autos) ---
     let autos = [
+        // ... (Tu array de autos aquí, no necesita cambios)
         {
             id: 'sedan',
             nombre: 'Sedán Elegante',
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'img/autos/t-cros/6.png.png',
                 'img/autos/t-cros/7.png.png'
             ],
-            descripcionDetallada: 'La SUV Familiar combina versatilidad y robustez. Con asientos para cinco pasajeros y un amplio maletero, es perfecta para viajes largos o el día a día en la ciudad. Cuenta con sistemas de seguridad activa y pasiva, conectividad total y un diseño imponente que no pasará desapercibido.'
+            descripcionDetallada: 'La SUV Familiar combina versatilidad y robustez. Con asientos para cinco pasajeros y un amplio maletero, es perfecta para viajes largos o el día a día en la ciudad. Cuenta con sistemas de seguridad activa y pasiva, conectividad total y un diseño imponente que no pasará desapercebido.'
         },
         {
             id: 'deportivo',
@@ -172,13 +175,26 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             modalCarouselIndicators.innerHTML += indicator;
         });
-
-        // No es necesario llamar a detalleAutoModal.show() aquí si el botón ya tiene data-bs-toggle y data-bs-target
-        // Bootstrap se encarga de mostrarlo.
     }
 
-
     mostrarAutos(); // Mostrar autos al cargar la página
+
+    // --- MODIFICACIÓN AQUÍ: Manejar el clic en el botón "Solicitar Info" del modal ---
+    if (solicitarInfoBtn) {
+        solicitarInfoBtn.addEventListener('click', () => {
+            // Primero, cierra el modal programáticamente
+            detalleAutoModal.hide(); 
+            
+            // Luego, espera un breve momento para asegurar que el modal se ha ocultado visualmente
+            // antes de desplazar la ventana. Esto puede ayudar a prevenir el "rebote".
+            setTimeout(() => {
+                const contactSection = document.getElementById('contacto');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 150); // Puedes ajustar este tiempo si es necesario (ej. 100ms, 200ms)
+        });
+    }
 
     // --- MANEJO DEL FORMULARIO DE CONTACTO (sin cambios) ---
     if (formularioContacto) {
@@ -199,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             if (!email.includes('@') || !email.includes('.')) {
-                 mensajeError.textContent = 'Por favor, ingresa un email válido.';
+                   mensajeError.textContent = 'Por favor, ingresa un email válido.';
                 mensajeError.style.display = 'block';
                 return;
             }
