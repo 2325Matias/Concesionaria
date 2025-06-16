@@ -44,12 +44,15 @@
         </div>
     </nav>
 
-    <div class="container mt-5" id="empleados-section">
-        <div class="employee-actions">
+    <div class="container mt-5 pt-5" id="empleados-section">
+        <h2>Listado de Empleados</h2>
+        <div class="employee-actions mb-3 d-flex align-items-center"">
             <button class="btn btn-primary btn-sm" id="agregar-empleado">Agregar</button>
             <button class="btn btn-primary btn-sm" id="modificar-empleado">Modificar</button>
             <button class="btn btn-primary btn-sm" id="eliminar-empleado">Eliminar</button>
+            <input type="text" class="form-control form-control-sm w-25 ms-2" id="busqueda-empleado" placeholder="Buscar por Usuario o Correo">
         </div>
+        
         <div class="employee-table">
             <table class="table table-striped">
                 <thead>
@@ -58,27 +61,27 @@
                         <th>Usuario</th>
                         <th>Correo</th>
                         <th>Contraseña</th>
-                    </tr>
+                        <th>Rol</th> </tr>
                 </thead>
                 <tbody id="tabla-empleados-body">
                     <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="1" data-usuario="empleado1" data-correo="empleado1@example.com" data-contrasena="****"></td>
+                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="1" data-usuario="empleado1" data-correo="empleado1@example.com" data-contrasena="****" data-rol="Administrativo"></td>
                         <td>empleado1</td>
                         <td>empleado1@example.com</td>
                         <td>****</td>
-                    </tr>
+                        <td>Administrativo</td> </tr>
                     <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="2" data-usuario="empleado2" data-correo="empleado2@example.com" data-contrasena="****"></td>
+                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="2" data-usuario="empleado2" data-correo="empleado2@example.com" data-contrasena="****" data-rol="Mecánico"></td>
                         <td>empleado2</td>
                         <td>empleado2@example.com</td>
                         <td>****</td>
-                    </tr>
+                        <td>Mecánico</td> </tr>
                     <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="3" data-usuario="empleado3" data-correo="empleado3@example.com" data-contrasena="****"></td>
+                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="3" data-usuario="empleado3" data-correo="empleado3@example.com" data-contrasena="****" data-rol="Vendedor-Auto"></td>
                         <td>empleado3</td>
                         <td>empleado3@example.com</td>
                         <td>****</td>
-                    </tr>
+                        <td>Vendedor-Auto</td> </tr>
                 </tbody>
             </table>
         </div>
@@ -104,43 +107,63 @@
                                 <label for="editar-contrasena" class="form-label">Contraseña:</label>
                                 <input type="password" class="form-control" id="editar-contrasena">
                             </div>
+                            <div class="mb-3">
+                                <label for="editar-rol" class="form-label">Rol:</label>
+                                <select class="form-select" id="editar-rol" required>
+                                    <option value="">Seleccione un rol</option>
+                                    <option value="Administrativo">Administrativo</option>
+                                    <option value="Mecánico">Mecánico</option>
+                                    <option value="Recepcionista">Recepcionista</option>
+                                    <option value="Vendedor-Auto">Vendedor-Auto</option>
+                                    <option value="Vendedor-Accesorio">Vendedor-Accesorio</option>
+                                </select>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-primary" id="guardar-cambios-empleado">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" aria-labelledby="agregarEmpleadoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="agregarEmpleadoModalLabel">Agregar Nuevo Empleado</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="form-agregar-empleado">
-                        <div class="mb-3">
-                            <label for="agregar-usuario" class="form-label">Usuario:</label>
-                            <input type="text" class="form-control" id="agregar-usuario">
-                        </div>
-                        <div class="mb-3">
-                            <label for="agregar-correo" class="form-label">Correo:</label>
-                            <input type="email" class="form-control" id="agregar-correo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="agregar-contrasena" class="form-label">Contraseña:</label>
-                            <input type="password" class="form-control" id="agregar-contrasena">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success" id="guardar-nuevo-empleado">Guardar Empleado</button>
+        <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" aria-labelledby="agregarEmpleadoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarEmpleadoModalLabel">Agregar Nuevo Empleado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-agregar-empleado">
+                            <div class="mb-3">
+                                <label for="agregar-usuario" class="form-label">Usuario:</label>
+                                <input type="text" class="form-control" id="agregar-usuario">
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-correo" class="form-label">Correo:</label>
+                                <input type="email" class="form-control" id="agregar-correo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-contrasena" class="form-label">Contraseña:</label>
+                                <input type="password" class="form-control" id="agregar-contrasena">
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-rol" class="form-label">Rol:</label>
+                                <select class="form-select" id="agregar-rol" required>
+                                    <option value="">Seleccione un rol</option>
+                                    <option value="Administrativo">Administrativo</option>
+                                    <option value="Mecánico">Mecánico</option>
+                                    <option value="Recepcionista">Recepcionista</option>
+                                    <option value="Vendedor-Auto">Vendedor-Auto</option>
+                                    <option value="Vendedor-Accesorio">Vendedor-Accesorio</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="guardar-nuevo-empleado">Guardar Empleado</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,8 +171,10 @@
 
     <div class="container mt-5 pt-5" id="ventas-section">
         <h2>Listado de Ventas</h2>
-        <div class="sales-actions mb-3 d-flex align-items-center"> 
-            <button class="btn btn-primary btn-sm me-2" id="nueva-venta">Nueva Venta</button> <input type="text" class="form-control form-control-sm w-25" id="busqueda-venta" placeholder="Buscar por Remito o Cliente"> </div>
+        <div class="sales-actions mb-3 d-flex align-items-center">
+            <button class="btn btn-primary btn-sm me-2" id="nueva-venta">Nueva Venta</button>
+            <input type="text" class="form-control form-control-sm w-25" id="busqueda-venta" placeholder="Buscar por Remito o Cliente">
+        </div>
         <div class="sales-table">
             <table class="table table-striped">
                 <thead>
