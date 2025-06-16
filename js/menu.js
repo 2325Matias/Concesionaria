@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tablaVentasBody = document.getElementById('tabla-ventas-body');
     const botonNuevaVenta = document.getElementById('nueva-venta');
+    const inputBusquedaVenta = document.getElementById('busqueda-venta');
 
     // Campos del modal de Nueva Venta/Editar Venta
     const modalTitleNuevaVenta = document.getElementById('nuevaVentaModalLabel'); // Título del modal
@@ -303,10 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Función para renderizar los datos de ventas en la tabla
-    function renderizarVentas() {
+    // Función para renderizar los datos de ventas en la tabla, ahora con filtro
+    function renderizarVentas(filtro = '') {
         tablaVentasBody.innerHTML = ''; // Limpiar filas existentes
-        salesData.forEach(sale => {
+        const textoFiltro = filtro.toLowerCase();
+
+        const ventasFiltradas = salesData.filter(sale => {
+            return (
+                sale.remito.toLowerCase().includes(textoFiltro) ||
+                sale.clienteNombreCompleto.toLowerCase().includes(textoFiltro)
+            );
+        });
+
+        if (ventasFiltradas.length === 0 && textoFiltro !== '') {
+            const noResultsRow = tablaVentasBody.insertRow();
+            noResultsRow.innerHTML = `<td colspan="4" class="text-center">No se encontraron ventas que coincidan con la búsqueda.</td>`;
+            return;
+        }
+
+        ventasFiltradas.forEach(sale => {
             const row = tablaVentasBody.insertRow();
             row.innerHTML = `
                 <td>${sale.remito}</td>
@@ -445,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (index > -1) {
                         salesData.splice(index, 1);
                     }
-                    renderizarVentas();
+                    renderizarVentas(inputBusquedaVenta.value); // Volver a renderizar aplicando el filtro actual
                     alert('Venta eliminada con éxito.');
                 }
             });
@@ -503,9 +519,14 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Nueva venta registrada con éxito.');
         }
 
-        renderizarVentas(); // Volver a renderizar la tabla
+        renderizarVentas(inputBusquedaVenta.value); // Volver a renderizar la tabla aplicando el filtro actual
         modalNuevaVenta.hide(); // Cerrar el modal
         formNuevaVenta.reset(); // Limpiar el formulario
+    });
+
+    // Evento para el campo de búsqueda
+    inputBusquedaVenta.addEventListener('keyup', () => {
+        renderizarVentas(inputBusquedaVenta.value);
     });
 
 
