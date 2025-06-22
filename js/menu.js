@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const empleadosSection = document.getElementById('empleados-section');
     const ventasSection = document.getElementById('ventas-section');
-    const tallerSection = document.getElementById('taller-section'); // NUEVO
+    const tallerSection = document.getElementById('taller-section'); 
+    const vehiculosSection = document.getElementById('vehiculos-section');// NUEVO
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
     // Ocultar las secciones al inicio
     empleadosSection.style.display = 'none';
     ventasSection.style.display = 'none';
-    tallerSection.style.display = 'none'; // NUEVO
+    tallerSection.style.display = 'none';
+    vehiculosSection.style.display = 'none'; // NUEVO
 
     // Agregar event listeners a los enlaces de navegación
     navLinks.forEach(link => {
@@ -15,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ocultar todas las secciones antes de mostrar la correcta
             empleadosSection.style.display = 'none';
             ventasSection.style.display = 'none';
-            tallerSection.style.display = 'none'; // NUEVO
+            tallerSection.style.display = 'none'; 
+            vehiculosSection.style.display = 'none';// NUEVO
 
             if (link.getAttribute('href') === '#empleados-section') {
                 event.preventDefault();
@@ -37,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Llama a la función de renderizado desde workshop.js
                 if (typeof renderizarOrdenesTaller === 'function') { // Cambiado el nombre de la función
                     renderizarOrdenesTaller(document.getElementById('busqueda-orden').value);
+                }
+            } else if (link.getAttribute('href') === '#vehiculos-section') {
+                event.preventDefault();
+                vehiculosSection.style.display = 'block';
+                // Llama a la función de renderizado desde vehiculos.js
+                if (typeof renderizarVehiculos === 'function') {
+                    renderizarVehiculos(document.getElementById('busqueda-vehiculo').value);
                 }
             }
 

@@ -39,3 +39,38 @@
 .workshop-actions .btn:last-child { /* NUEVO: Para el último botón de acción del taller */
     margin-right: 0; /* Elimina el margen del último botón */
 }
+
+/* Estilos para la sección de vehículos */
+.vehiculos-actions, .vehiculos-table {
+    padding: 20px;
+    text-align: left;
+}
+
+.vehiculos-table th:last-child,
+.vehiculos-table td:last-child {
+    text-align: center;
+}
+
+.vehiculos-actions .btn {
+    margin-right: 10px;
+}
+
+.vehiculos-actions .btn:last-child {
+    margin-right: 0;
+}
+
+/* Ajustes para la tabla de vehículos */
+.vehiculos-table table {
+    font-size: 0.9rem;
+}
+
+.vehiculos-table th, 
+.vehiculos-table td {
+    vertical-align: middle;
+}
+
+/* Estilos para los botones de acción */
+.vehiculos-table .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
