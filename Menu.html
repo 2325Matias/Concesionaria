@@ -39,7 +39,7 @@
                         <a class="nav-link" href="#vehiculos-section">Vehículos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="accesorios-section">Accesorios</a>
+                        <a class="nav-link" href="#accesorios-section">Accesorios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Login.html">Cerrar Sesión</a>
@@ -597,7 +597,118 @@
         </div>
     </div>
 
+    <div class="container mt-5 pt-5" id="accesorios-section">
+        <h2>Listado de Ventas de Accesorios</h2>
+        <div class="acciones-superiores d-flex align-items-center mb-3">
+            <button class="btn btn-primary btn-sm" id="nueva-venta-accesorios">Nueva Venta</button>
+            <input type="text" class="form-control form-control-sm w-25" id="filtro-ventas-accesorios"
+                placeholder="Filtrar por Cliente/Remito">
+        </div>
 
+        <div class="table-responsive">
+            <table class="table table-striped" id="tabla-accesorios">
+                <thead>
+                    <tr>
+                        <th>N° Remito</th>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-accesorios-body">
+                    <!-- Datos se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal para nueva venta -->
+        <div class="modal fade" id="nuevaVentaAccesoriosModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Registrar Venta de Accesorios</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-nueva-venta-accesorios">
+                            <input type="hidden" id="venta-accesorios-id">
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">N° Remito*</label>
+                                    <input type="text" class="form-control" id="numero-remito-accesorios" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha*</label>
+                                    <input type="date" class="form-control" id="fecha-venta-accesorios" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Cliente*</label>
+                                    <input type="text" class="form-control" id="cliente-nombre-accesorios" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Teléfono*</label>
+                                    <input type="text" class="form-control" id="cliente-telefono-accesorios" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Producto*</label>
+                                    <select class="form-select" id="producto-accesorios" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="cubiertas">Cubiertas</option>
+                                        <option value="aceite_motor">Aceite de Motor</option>
+                                        <option value="aceite_caja">Aceite de Caja</option>
+                                        <option value="pastillas">Pastillas de Freno</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Precio ($)*</label>
+                                    <input type="number" class="form-control" id="precio-accesorios" min="0" step="0.01"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion-accesorios" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="guardar-venta-accesorios">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver detalles -->
+        <div class="modal fade" id="detallesVentaModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalles de Venta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="detalles-venta-body">
+                        <!-- Los detalles se cargarán aquí dinámicamente -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
@@ -607,6 +718,7 @@
     <script src="js/ventas.js"></script>
     <script src="js/taller.js"></script>
     <script src="js/vehiculos.js"></script>
+    <script src="js/accesorios.js"></script>
 
 </body>
 

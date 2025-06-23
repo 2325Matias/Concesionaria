@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const empleadosSection = document.getElementById('empleados-section');
     const ventasSection = document.getElementById('ventas-section');
-    const tallerSection = document.getElementById('taller-section'); 
-    const vehiculosSection = document.getElementById('vehiculos-section');// NUEVO
+    const tallerSection = document.getElementById('taller-section');
+    const vehiculosSection = document.getElementById('vehiculos-section');
+    const accesoriosSection = document.getElementById('accesorios-section');// NUEVO
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
     // Ocultar las secciones al inicio
     empleadosSection.style.display = 'none';
     ventasSection.style.display = 'none';
     tallerSection.style.display = 'none';
-    vehiculosSection.style.display = 'none'; // NUEVO
+    vehiculosSection.style.display = 'none';
+    accesoriosSection.style.display = 'none'; // NUEVO
 
     // Agregar event listeners a los enlaces de navegación
     navLinks.forEach(link => {
@@ -17,8 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ocultar todas las secciones antes de mostrar la correcta
             empleadosSection.style.display = 'none';
             ventasSection.style.display = 'none';
-            tallerSection.style.display = 'none'; 
-            vehiculosSection.style.display = 'none';// NUEVO
+            tallerSection.style.display = 'none';
+            vehiculosSection.style.display = 'none';
+            accesoriosSection.style.display = 'none'; // NUEVO
 
             if (link.getAttribute('href') === '#empleados-section') {
                 event.preventDefault();
@@ -48,7 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof renderizarVehiculos === 'function') {
                     renderizarVehiculos(document.getElementById('busqueda-vehiculo').value);
                 }
+            } else if (link.getAttribute('href') === '#accesorios-section') {
+                event.preventDefault();
+                accesoriosSection.style.display = 'block';
+                // Llama a la función de renderizado desde vehiculos.js
+                if (typeof renderizarTabla === 'function') {
+                    renderizarTabla(document.getElementById('filtro-ventas-accesorios').value);
+                }
             }
+
 
             // Remover la clase 'active' de todos los enlaces y agregarla al actual
             navLinks.forEach(navLink => navLink.classList.remove('active'));
