@@ -25,24 +25,29 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto" id="mainNav"> <!-- Agregado ID al ul -->
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#empleados-section">Empleados</a>
+                        <a class="nav-link" href="#empleados-section" data-role="Administrador">Empleados</a>
+                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#ventas-section">Ventas</a>
+                        <a class="nav-link" href="#ventas-section" data-role="Administrador,Vendedor">Ventas</a>
+                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#taller-section">Taller</a>
+                        <a class="nav-link" href="#taller-section"
+                            data-role="Administrador,Mecánico,Recepcionista">Taller</a> <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#vehiculos-section">Vehículos</a>
+                        <a class="nav-link" href="#vehiculos-section"
+                            data-role="Administrador,Vendedor">Vehículos</a> <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#accesorios-section">Accesorios</a>
+                        <a class="nav-link" href="#accesorios-section" data-role="Administrador,Vendedor">Accesorios</a>
+                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Login.html">Cerrar Sesión</a>
+                        <a class="nav-link" href="Login.html" id="logoutLink">Cerrar Sesión</a> <!-- Agregado ID -->
                     </li>
                 </ul>
             </div>
@@ -71,7 +76,7 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-empleados-body">
-                    <tr>
+                    <!--  <tr>
                         <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="1"
                                 data-usuario="empleado1" data-correo="empleado1@example.com" data-contrasena="****"
                                 data-rol="Administrativo"></td>
@@ -97,7 +102,7 @@
                         <td>empleado3@example.com</td>
                         <td>****</td>
                         <td>Vendedor-Auto</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>
@@ -171,11 +176,10 @@
                                 <label for="agregar-rol" class="form-label">Rol:</label>
                                 <select class="form-select" id="agregar-rol" required>
                                     <option value="">Seleccione un rol</option>
-                                    <option value="Administrativo">Administrativo</option>
+                                    <option value="Administrador">Administrador</option>
                                     <option value="Mecánico">Mecánico</option>
                                     <option value="Recepcionista">Recepcionista</option>
-                                    <option value="Vendedor-Auto">Vendedor-Auto</option>
-                                    <option value="Vendedor-Accesorio">Vendedor-Accesorio</option>
+                                    <option value="Vendedor">Vendedor</option>
                                 </select>
                             </div>
                         </form>
@@ -713,12 +717,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
-    <script src="js/menu.js"></script>
+
     <script src="js/empleados.js"></script>
     <script src="js/ventas.js"></script>
     <script src="js/taller.js"></script>
     <script src="js/vehiculos.js"></script>
     <script src="js/accesorios.js"></script>
+    <script src="js/menu.js"></script> <!-- Modificado para la lógica de roles -->
 
 </body>
 

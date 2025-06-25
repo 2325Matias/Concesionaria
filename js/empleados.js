@@ -1,215 +1,208 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const tablaEmpleadosBody = document.getElementById('tabla-empleados-body');
-    const botonAgregar = document.getElementById('agregar-empleado');
-    const botonModificar = document.getElementById('modificar-empleado');
-    const botonEliminar = document.getElementById('eliminar-empleado');
+// Obtener usuarios del sistema desde localStorage
+function getSystemUsers() {
+    const storedUsers = localStorage.getItem('systemUsers');
+    return storedUsers ? JSON.parse(storedUsers) : [];
+}
 
-    // Modales
-    const modalEditarEmpleado = new bootstrap.Modal(document.getElementById('editarEmpleadoModal'));
-    const modalAgregarEmpleado = new bootstrap.Modal(document.getElementById('agregarEmpleadoModal'));
+// Guardar usuarios en localStorage
+function saveSystemUsers(users) {
+    localStorage.setItem('systemUsers', JSON.stringify(users));
+}
 
-    // Formularios dentro de los modales
-    const formEditarEmpleado = document.getElementById('form-editar-empleado');
-    const formAgregarEmpleado = document.getElementById('form-agregar-empleado');
+// Renderizar la tabla de empleados
+function renderizarEmpleados(filter = '') {
+    const users = getSystemUsers();
+    const tbody = document.getElementById('tabla-empleados-body');
+    tbody.innerHTML = '';
 
-    // Campos para el modal Editar Empleado
-    const inputEditarUsuario = document.getElementById('editar-usuario');
-    const inputEditarCorreo = document.getElementById('editar-correo');
-    const inputEditarContrasena = document.getElementById('editar-contrasena');
-    const selectEditarRol = document.getElementById('editar-rol');
-    const botonGuardarCambios = document.getElementById('guardar-cambios-empleado');
+    const filteredUsers = users.filter(user => 
+        user.username.toLowerCase().includes(filter.toLowerCase()) || 
+        user.email.toLowerCase().includes(filter.toLowerCase())
+    );
 
-    // Campos para el modal Agregar Empleado
-    const inputAgregarUsuario = document.getElementById('agregar-usuario');
-    const inputAgregarCorreo = document.getElementById('agregar-correo');
-    const inputAgregarContrasena = document.getElementById('agregar-contrasena');
-    const selectAgregarRol = document.getElementById('agregar-rol');
-    const botonGuardarNuevoEmpleado = document.getElementById('guardar-nuevo-empleado');
-
-    const inputBusquedaEmpleado = document.getElementById('busqueda-empleado');
-
-    let empleadoSeleccionadoCheckbox = null;
-    let empleadoSeleccionadoFila = null;
-
-    const employeesData = Array.from(tablaEmpleadosBody.querySelectorAll('tr')).map(row => {
-        const checkbox = row.querySelector('.select-empleado');
-        return {
-            id: parseInt(checkbox.dataset.id),
-            usuario: checkbox.dataset.usuario,
-            correo: checkbox.dataset.correo,
-            contrasena: checkbox.dataset.contrasena,
-            rol: checkbox.dataset.rol
-        };
+    filteredUsers.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="checkbox" class="form-check-input me-2 select-empleado" 
+                 data-id="${user.id}" data-username="${user.username}" 
+                 data-email="${user.email}" data-role="${user.role}"></td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>****</td>
+            <td>${user.role}</td>
+        `;
+        tbody.appendChild(tr);
     });
-    let nextIdEmpleado = employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1;
 
-    // Función para renderizar la tabla de empleados
-    window.renderizarEmpleados = function(filtro = '') { // Se hizo global para que menu.js la pueda llamar
-        tablaEmpleadosBody.innerHTML = '';
-        const textoFiltro = filtro.toLowerCase();
+    // Actualizar estado de botones según selección
+    updateButtonStates();
+}
 
-        const empleadosFiltrados = employeesData.filter(empleado => {
-            return (
-                empleado.usuario.toLowerCase().includes(textoFiltro) ||
-                empleado.correo.toLowerCase().includes(textoFiltro)
-            );
-        });
+// Actualizar estado de los botones (habilitar/deshabilitar)
+function updateButtonStates() {
+    const selected = document.querySelector('.select-empleado:checked');
+    const currentRole = sessionStorage.getItem('userRole');
+    const isAdmin = currentRole === 'Administrador';
+    
+    // Habilitar/deshabilitar según permisos
+    document.getElementById('agregar-empleado').disabled = !isAdmin;
+    document.getElementById('modificar-empleado').disabled = !isAdmin || !selected;
+    document.getElementById('eliminar-empleado').disabled = !isAdmin || !selected;
+}
 
-        if (empleadosFiltrados.length === 0 && textoFiltro !== '') {
-            const noResultsRow = tablaEmpleadosBody.insertRow();
-            noResultsRow.innerHTML = `<td colspan="5" class="text-center">No se encontraron empleados que coincidan con la búsqueda.</td>`;
-            return;
+// Obtener empleado por ID
+function getEmployeeById(id) {
+    const users = getSystemUsers();
+    return users.find(user => user.id == id);
+}
+
+// Actualizar empleado existente
+function updateEmployee(id, updatedData) {
+    const users = getSystemUsers();
+    const index = users.findIndex(user => user.id == id);
+    
+    if (index !== -1) {
+        // Mantener la contraseña existente si no se proporciona una nueva
+        if (!updatedData.password) {
+            updatedData.password = users[index].password;
         }
-
-        empleadosFiltrados.forEach(empleado => {
-            const newRow = tablaEmpleadosBody.insertRow();
-            const checkboxCell = newRow.insertCell();
-            const usuarioCell = newRow.insertCell();
-            const correoCell = newRow.insertCell();
-            const contrasenaCell = newRow.insertCell();
-            const rolCell = newRow.insertCell();
-
-            const newCheckbox = document.createElement('input');
-            newCheckbox.type = 'checkbox';
-            newCheckbox.classList.add('form-check-input', 'me-2', 'select-empleado');
-            newCheckbox.dataset.id = empleado.id;
-            newCheckbox.dataset.usuario = empleado.usuario;
-            newCheckbox.dataset.correo = empleado.correo;
-            newCheckbox.dataset.contrasena = empleado.contrasena;
-            newCheckbox.dataset.rol = empleado.rol;
-
-            checkboxCell.appendChild(newCheckbox);
-            usuarioCell.textContent = empleado.usuario;
-            correoCell.textContent = empleado.correo;
-            contrasenaCell.textContent = '****';
-            rolCell.textContent = empleado.rol;
-        });
+        
+        users[index] = { ...users[index], ...updatedData };
+        saveSystemUsers(users);
+        return true;
     }
+    return false;
+}
 
-    function obtenerCheckboxesSeleccionados() {
-        return Array.from(tablaEmpleadosBody.querySelectorAll('.select-empleado:checked'));
-    }
+// Agregar nuevo empleado
+function addNewEmployee(employeeData) {
+    const users = getSystemUsers();
+    const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+    
+    const newEmployee = {
+        id: newId,
+        username: employeeData.username,
+        email: employeeData.email,
+        password: employeeData.password || 'temp123', // Contraseña temporal por defecto
+        role: employeeData.role,
+        nombre: employeeData.nombre || employeeData.username
+    };
+    
+    users.push(newEmployee);
+    saveSystemUsers(users);
+    return newEmployee;
+}
 
-    function llenarModalEditar(checkbox) {
-        inputEditarUsuario.value = checkbox.dataset.usuario;
-        inputEditarCorreo.value = checkbox.dataset.correo;
-        inputEditarContrasena.value = checkbox.dataset.contrasena;
-        selectEditarRol.value = checkbox.dataset.rol;
-        empleadoSeleccionadoCheckbox = checkbox;
-        empleadoSeleccionadoFila = checkbox.closest('tr');
-    }
-
-    botonAgregar.addEventListener('click', () => {
-        formAgregarEmpleado.reset();
-        selectAgregarRol.value = '';
-        modalAgregarEmpleado.show();
-    });
-
-    botonGuardarNuevoEmpleado.addEventListener('click', () => {
-        const nuevoUsuario = inputAgregarUsuario.value.trim();
-        const nuevoCorreo = inputAgregarCorreo.value.trim();
-        const nuevaContrasena = inputAgregarContrasena.value;
-        const nuevoRol = selectAgregarRol.value;
-
-        if (nuevoUsuario && nuevoCorreo && nuevaContrasena && nuevoRol) {
-            const nuevoEmpleado = {
-                id: nextIdEmpleado++,
-                usuario: nuevoUsuario,
-                correo: nuevoCorreo,
-                contrasena: nuevaContrasena,
-                rol: nuevoRol
-            };
-            employeesData.push(nuevoEmpleado);
-            renderizarEmpleados(inputBusquedaEmpleado.value);
-
-            modalAgregarEmpleado.hide();
-            formAgregarEmpleado.reset();
-            alert('Nuevo empleado agregado con éxito.');
-        } else {
-            alert('Por favor, completa todos los campos para agregar un nuevo empleado.');
-        }
-    });
-
-    botonModificar.addEventListener('click', () => {
-        const checkboxesSeleccionados = obtenerCheckboxesSeleccionados();
-
-        if (checkboxesSeleccionados.length === 1) {
-            llenarModalEditar(checkboxesSeleccionados[0]);
-            modalEditarEmpleado.show();
-        } else if (checkboxesSeleccionados.length > 1) {
-            alert('Por favor, selecciona solo un empleado para modificar.');
-        } else {
-            alert('Por favor, selecciona un empleado para modificar.');
-        }
-    });
-
-    botonGuardarCambios.addEventListener('click', () => {
-        if (empleadoSeleccionadoCheckbox && empleadoSeleccionadoFila) {
-            const nuevoUsuario = inputEditarUsuario.value.trim();
-            const nuevoCorreo = inputEditarCorreo.value.trim();
-            const nuevaContrasena = inputEditarContrasena.value;
-            const nuevoRol = selectEditarRol.value;
-
-            if (!nuevoUsuario || !nuevoCorreo || !nuevaContrasena || !nuevoRol) {
-                alert('Por favor, completa todos los campos.');
-                return;
-            }
-
-            empleadoSeleccionadoCheckbox.dataset.usuario = nuevoUsuario;
-            empleadoSeleccionadoCheckbox.dataset.correo = nuevoCorreo;
-            empleadoSeleccionadoCheckbox.dataset.contrasena = nuevaContrasena;
-            empleadoSeleccionadoCheckbox.dataset.rol = nuevoRol;
-
-            empleadoSeleccionadoFila.cells[1].textContent = nuevoUsuario;
-            empleadoSeleccionadoFila.cells[2].textContent = nuevoCorreo;
-            empleadoSeleccionadoFila.cells[3].textContent = '****';
-            empleadoSeleccionadoFila.cells[4].textContent = nuevoRol;
-
-            const empleadoId = parseInt(empleadoSeleccionadoCheckbox.dataset.id);
-            const index = employeesData.findIndex(emp => emp.id === empleadoId);
-            if (index > -1) {
-                employeesData[index] = {
-                    ...employeesData[index],
-                    usuario: nuevoUsuario,
-                    correo: nuevoCorreo,
-                    contrasena: nuevaContrasena,
-                    rol: nuevoRol
-                };
-            }
-
-            modalEditarEmpleado.hide();
-            empleadoSeleccionadoCheckbox = null;
-            empleadoSeleccionadoFila = null;
-            formEditarEmpleado.reset();
-            alert('Empleado modificado con éxito.');
-        }
-    });
-
-    botonEliminar.addEventListener('click', () => {
-        const checkboxesSeleccionados = obtenerCheckboxesSeleccionados();
-
-        if (checkboxesSeleccionados.length > 0) {
-            if (confirm('¿Estás seguro de que deseas eliminar los empleados seleccionados?')) {
-                checkboxesSeleccionados.forEach(checkbox => {
-                    const empleadoId = parseInt(checkbox.dataset.id);
-                    const index = employeesData.findIndex(emp => emp.id === empleadoId);
-                    if (index > -1) {
-                        employeesData.splice(index, 1);
-                    }
-                });
-                renderizarEmpleados(inputBusquedaEmpleado.value);
-
-                alert('Empleados eliminados con éxito.');
-            }
-        } else {
-            alert('Por favor, selecciona al menos un empleado para eliminar.');
-        }
-    });
-
-    inputBusquedaEmpleado.addEventListener('keyup', () => {
-        renderizarEmpleados(inputBusquedaEmpleado.value);
-    });
-
-    // Renderizado inicial cuando employees.js es cargado
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Renderizar inicialmente
     renderizarEmpleados();
+    
+    // Búsqueda
+    document.getElementById('busqueda-empleado').addEventListener('input', function(e) {
+        renderizarEmpleados(e.target.value);
+    });
+    
+    // Selección de empleados
+    document.getElementById('tabla-empleados-body').addEventListener('change', function(e) {
+        if (e.target.classList.contains('select-empleado')) {
+            updateButtonStates();
+        }
+    });
+    
+    // Botón Agregar
+    document.getElementById('agregar-empleado').addEventListener('click', function() {
+        // Limpiar formulario
+        document.getElementById('agregar-usuario').value = '';
+        document.getElementById('agregar-correo').value = '';
+        document.getElementById('agregar-contrasena').value = '';
+        document.getElementById('agregar-rol').value = '';
+        
+        // Mostrar modal
+        const modal = new bootstrap.Modal(document.getElementById('agregarEmpleadoModal'));
+        modal.show();
+    });
+    
+    // Botón Modificar
+    document.getElementById('modificar-empleado').addEventListener('click', function() {
+        const selected = document.querySelector('.select-empleado:checked');
+        if (selected) {
+            const employee = {
+                username: selected.dataset.username,
+                email: selected.dataset.email,
+                role: selected.dataset.role,
+                id: selected.dataset.id
+            };
+            
+            // Llenar formulario
+            document.getElementById('editar-usuario').value = employee.username;
+            document.getElementById('editar-correo').value = employee.email;
+            document.getElementById('editar-contrasena').value = '';
+            document.getElementById('editar-rol').value = employee.role;
+            
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById('editarEmpleadoModal'));
+            modal.show();
+        }
+    });
+    
+    // Guardar nuevo empleado (Modal Agregar)
+    document.getElementById('guardar-nuevo-empleado').addEventListener('click', function() {
+        const newEmployee = {
+            username: document.getElementById('agregar-usuario').value,
+            email: document.getElementById('agregar-correo').value,
+            password: document.getElementById('agregar-contrasena').value,
+            role: document.getElementById('agregar-rol').value
+        };
+        
+        if (newEmployee.username && newEmployee.email && newEmployee.role) {
+            addNewEmployee(newEmployee);
+            renderizarEmpleados();
+            
+            // Cerrar modal
+            bootstrap.Modal.getInstance(document.getElementById('agregarEmpleadoModal')).hide();
+        } else {
+            alert('Por favor complete todos los campos requeridos');
+        }
+    });
+    
+    // Guardar cambios (Modal Editar)
+    document.getElementById('guardar-cambios-empleado').addEventListener('click', function() {
+        const selected = document.querySelector('.select-empleado:checked');
+        if (selected) {
+            const updatedData = {
+                username: document.getElementById('editar-usuario').value,
+                email: document.getElementById('editar-correo').value,
+                password: document.getElementById('editar-contrasena').value,
+                role: document.getElementById('editar-rol').value
+            };
+            
+            if (updatedData.username && updatedData.email && updatedData.role) {
+                if (updateEmployee(selected.dataset.id, updatedData)) {
+                    renderizarEmpleados();
+                    
+                    // Cerrar modal
+                    bootstrap.Modal.getInstance(document.getElementById('editarEmpleadoModal')).hide();
+                } else {
+                    alert('Error al actualizar empleado');
+                }
+            } else {
+                alert('Por favor complete todos los campos requeridos');
+            }
+        }
+    });
+    
+    // Botón Eliminar
+    document.getElementById('eliminar-empleado').addEventListener('click', function() {
+        const selected = document.querySelector('.select-empleado:checked');
+        if (selected) {
+            if (confirm('¿Está seguro de eliminar este empleado?')) {
+                const employeeId = parseInt(selected.dataset.id);
+                const users = getSystemUsers();
+                const filteredUsers = users.filter(user => user.id !== employeeId);
+                saveSystemUsers(filteredUsers);
+                renderizarEmpleados();
+            }
+        }
+    });
 });
