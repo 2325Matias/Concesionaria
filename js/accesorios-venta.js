@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnNuevaVenta = document.getElementById('nueva-venta-accesorios');
     const inputBusqueda = document.getElementById('filtro-ventas-accesorios');
     const btnGuardar = document.getElementById('guardar-venta-accesorios');
-    
+
+    // Elementos del modal de nueva/editar venta (Agregados para control del título y botones)
+    const nuevaVentaAccesoriosModalTitle = document.getElementById('nuevaVentaAccesoriosModalLabel'); // Asumiendo que tienes un ID para el título del modal
+    const formNuevaVentaAccesorios = document.getElementById('form-nueva-venta-accesorios');
+
+
     // Datos de ejemplo
     let ventasAccesorios = [
         {
@@ -32,23 +37,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ** DECLARA LA INSTANCIA DEL MODAL FUERA DE LA FUNCIÓN PARA REUTILIZARLA **
     let nuevaVentaAccesoriosModalInstance;
+    let detallesVentaAccesoriosModalInstance; // Instancia para el modal de detalles
 
     // Inicializar
-    window.initVentasAccesorios = function() { // Make it global
+    window.initVentasAccesorios = function() { // Hacerla global
         renderizarTabla(ventasAccesorios);
         setupEventListeners();
         // ** INICIALIZA LA INSTANCIA DEL MODAL UNA SOLA VEZ AQUÍ **
         nuevaVentaAccesoriosModalInstance = new bootstrap.Modal(document.getElementById('nuevaVentaAccesoriosModal'));
+        detallesVentaAccesoriosModalInstance = new bootstrap.Modal(document.getElementById('detallesVentaModal'));
     }
 
     // Configurar event listeners
     function setupEventListeners() {
         // Nueva venta
         btnNuevaVenta.addEventListener('click', function() {
-            document.getElementById('form-nueva-venta-accesorios').reset();
+            formNuevaVentaAccesorios.reset();
             document.getElementById('venta-accesorios-id').value = '';
             document.getElementById('fecha-venta-accesorios').valueAsDate = new Date();
-            
+
+            nuevaVentaAccesoriosModalTitle.textContent = 'Registrar Nueva Venta de Accesorio'; // Establece el título para nuevo
+            btnGuardar.style.display = 'block'; // Asegura que el botón guardar sea visible
+            setFormFieldsReadOnly(false, formNuevaVentaAccesorios); // Hace los campos editables
+
             // ** USA LA INSTANCIA YA CREADA PARA MOSTRAR EL MODAL **
             nuevaVentaAccesoriosModalInstance.show();
         });
@@ -61,22 +72,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Renderizar tabla
-    window.renderizarTabla = function(datos) { // Made global to be callable from menu.js
+    window.renderizarTabla = function(datos) { // Hecho global para poder ser llamado desde menu.js
         tablaBody.innerHTML = '';
-        
+
         datos.forEach(venta => {
             const fila = document.createElement('tr');
-            
+
             // Mapear nombre de producto
             const productos = {
                 "cubiertas": "Cubiertas",
-                "aceite_motor": "Aceite Motor", 
+                "aceite_motor": "Aceite Motor",
                 "aceite_caja": "Aceite Caja",
                 "pastillas": "Pastillas Freno",
                 "otros": "Otros"
             };
             const nombreProducto = productos[venta.producto] || "Otros";
-            
+
             fila.innerHTML = `
                 <td>${venta.remito}</td>
                 <td>${venta.cliente}</td>
@@ -90,19 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="btn btn-sm btn-danger btn-eliminar" data-id="${venta.id}">Eliminar</button>
                 </td>
             `;
-            
+
             tablaBody.appendChild(fila);
         });
-        
+
         // Event listeners para botones de acción
         document.querySelectorAll('.btn-ver-detalles').forEach(btn => {
             btn.addEventListener('click', verDetalles);
         });
-        
+
         document.querySelectorAll('.btn-editar').forEach(btn => {
             btn.addEventListener('click', editarVenta);
         });
-        
+
         document.querySelectorAll('.btn-eliminar').forEach(btn => {
             btn.addEventListener('click', eliminarVenta);
         });
@@ -111,17 +122,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Filtrar ventas automáticamente al escribir
     function filtrarVentas() {
         const termino = inputBusqueda.value.toLowerCase();
-        
+
         if (!termino) {
             renderizarTabla(ventasAccesorios);
             return;
         }
-        
-        const resultados = ventasAccesorios.filter(venta => 
-            venta.cliente.toLowerCase().includes(termino) || 
+
+        const resultados = ventasAccesorios.filter(venta =>
+            venta.cliente.toLowerCase().includes(termino) ||
             venta.remito.toLowerCase().includes(termino)
         );
-        
+
         renderizarTabla(resultados);
     }
 
@@ -129,17 +140,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function verDetalles() {
         const id = parseInt(this.getAttribute('data-id'));
         const venta = ventasAccesorios.find(v => v.id === id);
-        
+
         if (venta) {
             const productos = {
                 "cubiertas": "Cubiertas",
-                "aceite_motor": "Aceite de Motor", 
+                "aceite_motor": "Aceite de Motor",
                 "aceite_caja": "Aceite de Caja",
                 "pastillas": "Pastillas de Freno",
                 "otros": "Otros"
             };
             const nombreProducto = productos[venta.producto] || "Otros";
-            
+
             document.getElementById('detalles-venta-body').innerHTML = `
                 <div class="row">
                     <div class="col-6 fw-bold">N° Remito:</div>
@@ -170,12 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="col-6">${venta.fecha}</div>
                 </div>
             `;
-            
-            // Para el modal de detalles, también es buena práctica crear la instancia solo una vez
-            // O si solo se usa una vez como aquí, puedes obtener la instancia directamente.
-            // Si el modal de detalles también te da problemas, aplica la misma lógica.
-            const detallesVentaModal = new bootstrap.Modal(document.getElementById('detallesVentaModal'));
-            detallesVentaModal.show();
+
+            detallesVentaAccesoriosModalInstance.show();
         }
     }
 
@@ -183,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function editarVenta() {
         const id = parseInt(this.getAttribute('data-id'));
         const venta = ventasAccesorios.find(v => v.id === id);
-        
+
         if (!venta) return;
-        
+
         // Llenar formulario
         document.getElementById('venta-accesorios-id').value = venta.id;
         document.getElementById('numero-remito-accesorios').value = venta.remito;
@@ -194,11 +201,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('producto-accesorios').value = venta.producto;
         document.getElementById('descripcion-accesorios').value = venta.descripcion;
         document.getElementById('precio-accesorios').value = venta.precio;
-        
+
         // Formatear fecha
         const [day, month, year] = venta.fecha.split('/');
         document.getElementById('fecha-venta-accesorios').value = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        
+
+        nuevaVentaAccesoriosModalTitle.textContent = 'Modificar Venta de Accesorio'; // Establece el título para editar
+        btnGuardar.style.display = 'block'; // Asegura que el botón guardar sea visible
+        setFormFieldsReadOnly(false, formNuevaVentaAccesorios); // Hace los campos editables
+
         // ** USA LA INSTANCIA YA CREADA PARA MOSTRAR EL MODAL **
         nuevaVentaAccesoriosModalInstance.show();
     }
@@ -210,10 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
             form.classList.add('was-validated');
             return;
         }
-        
+
         const venta = {
-            id: document.getElementById('venta-accesorios-id').value 
-                ? parseInt(document.getElementById('venta-accesorios-id').value) 
+            id: document.getElementById('venta-accesorios-id').value
+                ? parseInt(document.getElementById('venta-accesorios-id').value)
                 : Math.max(...ventasAccesorios.map(v => v.id), 0) + 1,
             remito: document.getElementById('numero-remito-accesorios').value,
             cliente: document.getElementById('cliente-nombre-accesorios').value,
@@ -223,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
             precio: parseFloat(document.getElementById('precio-accesorios').value),
             fecha: formatFecha(document.getElementById('fecha-venta-accesorios').value)
         };
-        
+
         // Actualizar o agregar
         const index = ventasAccesorios.findIndex(v => v.id === venta.id);
         if (index !== -1) {
@@ -231,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             ventasAccesorios.push(venta);
         }
-        
+
         // ** USA LA INSTANCIA YA CREADA PARA ESCONDER EL MODAL **
         nuevaVentaAccesoriosModalInstance.hide();
         renderizarTabla(ventasAccesorios);
@@ -240,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Eliminar venta
     function eliminarVenta() {
         const id = parseInt(this.getAttribute('data-id'));
-        
+
         if (confirm('¿Está seguro que desea eliminar esta venta?')) {
             ventasAccesorios = ventasAccesorios.filter(v => v.id !== id);
             renderizarTabla(ventasAccesorios);
@@ -250,6 +261,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Formatear fecha
     function formatFecha(fechaStr) {
         const fecha = new Date(fechaStr);
-        return `${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()}`;
+        // Asegura que el día y el mes tengan dos dígitos
+        const day = String(fecha.getDate()).padStart(2, '0');
+        const month = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son indexados desde 0
+        const year = fecha.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    // Función para establecer los campos del formulario como de solo lectura o editables
+    function setFormFieldsReadOnly(readOnly, formElement) {
+        const fields = formElement.querySelectorAll('input, select, textarea');
+        fields.forEach(field => {
+            field.readOnly = readOnly;
+            if (field.type === 'select-one') {
+                field.style.pointerEvents = readOnly ? 'none' : 'auto';
+                field.style.touchAction = readOnly ? 'none' : 'auto';
+            }
+        });
     }
 });

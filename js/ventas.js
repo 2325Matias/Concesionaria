@@ -233,9 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     inputRemitoNuevaVenta.value = selectedSale.remito;
                     inputReferenciaNuevaVenta.value = selectedSale.referencia;
                     inputClienteNombreCompleto.value = selectedSale.clienteNombreCompleto;
-                    inputClienteDNI = selectedSale.clienteDNI;
-                    inputClienteCorreo = selectedSale.clienteCorreo;
-                    inputClienteTelefono = selectedSale.clienteTelefono;
+                    inputClienteDNI.value = selectedSale.clienteDNI;
+                    inputClienteCorreo.value = selectedSale.clienteCorreo;
+                    inputClienteTelefono.value = selectedSale.clienteTelefono;
 
                     if (selectedSale.permuta === 'Sí') {
                         radioPermutaSi.checked = true;

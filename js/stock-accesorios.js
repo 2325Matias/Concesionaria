@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const imagenAccesorioPreview = document.getElementById('imagen-accesorio-preview');
     const imagenAccesorioPreviewContainer = document.getElementById('imagen-accesorio-preview-container');
 
+    // Elementos del modal (Agregados para control del título y botones)
+    const nuevoAccesorioModalTitle = document.getElementById('nuevoAccesorioModalLabel'); // Asumiendo un ID para el título del modal
+    const formNuevoAccesorio = document.getElementById('form-nuevo-accesorio');
+
     // Datos de ejemplo para el stock de accesorios
     let stockAccesorios = [
         {
@@ -97,6 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         inputImagenAccesorioFile.value = ''; // Limpiar el input de archivo
 
+        nuevoAccesorioModalTitle.textContent = 'Modificar Accesorio Existente'; // Establece el título para editar
+        btnGuardarAccesorio.style.display = 'block'; // Asegura que el botón guardar sea visible
+        setFormFieldsReadOnly(false, formNuevoAccesorio); // Hace los campos editables
+
         nuevoAccesorioModalInstance.show();
     }
 
@@ -160,12 +168,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener para el botón "Nuevo Accesorio"
     btnNuevoAccesorio.addEventListener('click', function() {
-        document.getElementById('form-nuevo-accesorio').reset();
+        formNuevoAccesorio.reset();
         document.getElementById('accesorio-id-oculto').value = '';
         // Limpiar y ocultar la vista previa de la imagen para una nueva entrada
         imagenAccesorioPreview.src = '#';
         imagenAccesorioPreviewContainer.style.display = 'none';
         inputImagenAccesorioFile.value = ''; // Limpiar el input de archivo
+
+        nuevoAccesorioModalTitle.textContent = 'Registrar Nuevo Accesorio'; // Establece el título para nuevo
+        btnGuardarAccesorio.style.display = 'block'; // Asegura que el botón guardar sea visible
+        setFormFieldsReadOnly(false, formNuevoAccesorio); // Hace los campos editables
+
         nuevoAccesorioModalInstance.show();
     });
 
@@ -197,6 +210,31 @@ document.addEventListener('DOMContentLoaded', function() {
             imagenAccesorioPreviewContainer.style.display = 'none';
         }
     });
+
+    // Function to set form fields read-only or editable (reused from ventas.js logic)
+    function setFormFieldsReadOnly(readOnly, formElement) {
+        const fields = formElement.querySelectorAll('input, select, textarea');
+        fields.forEach(field => {
+            if (field.type === 'file') { // Excluye inputs de tipo file de ser solo lectura de la misma manera
+                field.disabled = readOnly;
+            } else if (field.type === 'checkbox' || field.type === 'radio') {
+                field.disabled = readOnly;
+            }
+            else {
+                field.readOnly = readOnly;
+            }
+        });
+        // Manejo especial para elementos select si necesitan una deshabilitación visual diferente
+        formElement.querySelectorAll('select').forEach(selectField => {
+            if (readOnly) {
+                selectField.style.pointerEvents = 'none';
+                selectField.style.touchAction = 'none';
+            } else {
+                selectField.style.pointerEvents = 'auto';
+                selectField.style.touchAction = 'auto';
+            }
+        });
+    }
 
     // Mover la inicialización a una función global
     window.initStockAccesorios = function() {
