@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutLink = document.getElementById('logoutLink');
     const sections = document.querySelectorAll('.container.mt-5.pt-5');
 
+    // Elementos específicos de la sección de accesorios
+    const btnVentasAccesorios = document.getElementById('btn-ventas-accesorios');
+    const btnStockAccesorios = document.getElementById('btn-stock-accesorios');
+    const ventasAccesoriosContent = document.getElementById('ventas-accesorios-content');
+    const stockAccesoriosContent = document.getElementById('stock-accesorios-content');
+
     // Si no hay rol, redirigir al login
     if (!userRole) {
         window.location.href = 'Login.html';
@@ -19,12 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para ejecutar el renderizado de cada sección
     function executeSectionScript(sectionId) {
         switch (sectionId) {
-            // En la función executeSectionScript, actualizamos el caso de empleados:
             case '#empleados-section':
                 if (typeof renderizarEmpleados === 'function') {
                     renderizarEmpleados(document.getElementById('busqueda-empleado').value);
 
-                    // Verificar si el usuario actual es admin para habilitar botones
                     const currentRole = sessionStorage.getItem('userRole');
                     const isAdmin = currentRole === 'Administrador';
 
@@ -50,11 +54,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 break;
             case '#accesorios-section':
-                if (typeof renderizarTabla === 'function') {
-                    renderizarTabla(document.getElementById('filtro-ventas-accesorios').value);
-                }
+                // Por defecto a Ventas Accesorios cuando se carga la sección
+                showAccesoriosContent('ventas');
                 break;
         }
+    }
+
+    // Función para alternar el contenido de accesorios
+    function showAccesoriosContent(view) {
+        if (view === 'ventas') {
+            ventasAccesoriosContent.style.display = 'block';
+            stockAccesoriosContent.style.display = 'none';
+            btnVentasAccesorios.classList.add('active');
+            btnStockAccesorios.classList.remove('active');
+            // Inicializar o volver a renderizar ventas
+            if (typeof initVentasAccesorios === 'function') {
+                initVentasAccesorios();
+            } else if (typeof renderizarTabla === 'function') { // Fallback si initVentasAccesorios no es explícitamente necesaria
+                renderizarTabla([]); // Renderizar vacío o con datos actuales si están disponibles
+            }
+            // Mostrar botón de nueva venta y filtro para ventas
+            document.getElementById('nueva-venta-accesorios').style.display = 'inline-block';
+            document.getElementById('filtro-ventas-accesorios').style.display = 'inline-block';
+            document.getElementById('nuevo-accesorio').style.display = 'none';
+            document.getElementById('filtro-stock-accesorios').style.display = 'none';
+
+        } else if (view === 'stock') {
+            ventasAccesoriosContent.style.display = 'none';
+            stockAccesoriosContent.style.display = 'block';
+            btnStockAccesorios.classList.add('active');
+            btnVentasAccesorios.classList.remove('active');
+            // Inicializar o volver a renderizar stock
+            if (typeof initStockAccesorios === 'function') {
+                initStockAccesorios();
+            } else if (typeof renderizarTablaStock === 'function') { // Fallback
+                renderizarTablaStock([]); // Renderizar vacío o con datos actuales si están disponibles
+            }
+            // Mostrar botón de nuevo accesorio y filtro para stock
+            document.getElementById('nueva-venta-accesorios').style.display = 'none';
+            document.getElementById('filtro-ventas-accesorios').style.display = 'none';
+            document.getElementById('nuevo-accesorio').style.display = 'inline-block';
+            document.getElementById('filtro-stock-accesorios').style.display = 'inline-block';
+        }
+    }
+
+    // Escuchadores de eventos para la alternancia de vistas de accesorios
+    if (btnVentasAccesorios) {
+        btnVentasAccesorios.addEventListener('click', () => showAccesoriosContent('ventas'));
+    }
+    if (btnStockAccesorios) {
+        btnStockAccesorios.addEventListener('click', () => showAccesoriosContent('stock'));
     }
 
     // Filtrar enlaces de navegación y configurar eventos

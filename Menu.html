@@ -25,29 +25,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto" id="mainNav"> <!-- Agregado ID al ul -->
+                <ul class="navbar-nav ms-auto" id="mainNav">
                     <li class="nav-item">
                         <a class="nav-link" href="#empleados-section" data-role="Administrador">Empleados</a>
-                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#ventas-section" data-role="Administrador,Vendedor">Ventas</a>
-                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#taller-section"
-                            data-role="Administrador,Mecánico,Recepcionista">Taller</a> <!-- Agregado data-role -->
+                            data-role="Administrador,Mecánico,Recepcionista">Taller</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#vehiculos-section"
-                            data-role="Administrador,Vendedor">Vehículos</a> <!-- Agregado data-role -->
+                        <a class="nav-link" href="#vehiculos-section" data-role="Administrador,Vendedor">Vehículos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#accesorios-section" data-role="Administrador,Vendedor">Accesorios</a>
-                        <!-- Agregado data-role -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Login.html" id="logoutLink">Cerrar Sesión</a> <!-- Agregado ID -->
+                        <a class="nav-link" href="Login.html" id="logoutLink">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>
@@ -76,33 +72,6 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-empleados-body">
-                    <!--  <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="1"
-                                data-usuario="empleado1" data-correo="empleado1@example.com" data-contrasena="****"
-                                data-rol="Administrativo"></td>
-                        <td>empleado1</td>
-                        <td>empleado1@example.com</td>
-                        <td>****</td>
-                        <td>Administrativo</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="2"
-                                data-usuario="empleado2" data-correo="empleado2@example.com" data-contrasena="****"
-                                data-rol="Mecánico"></td>
-                        <td>empleado2</td>
-                        <td>empleado2@example.com</td>
-                        <td>****</td>
-                        <td>Mecánico</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-check-input me-2 select-empleado" data-id="3"
-                                data-usuario="empleado3" data-correo="empleado3@example.com" data-contrasena="****"
-                                data-rol="Vendedor-Auto"></td>
-                        <td>empleado3</td>
-                        <td>empleado3@example.com</td>
-                        <td>****</td>
-                        <td>Vendedor-Auto</td>
-                    </tr>-->
                 </tbody>
             </table>
         </div>
@@ -366,6 +335,7 @@
                         <th>Cliente</th>
                         <th>Vehículo</th>
                         <th>Estado</th>
+                        <th>Día del Turno</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
@@ -438,6 +408,10 @@
                         <hr>
                         <h5>Detalles del Servicio</h5>
                         <div class="mb-3">
+                            <label for="turno-orden" class="form-label">Día del Turno:</label>
+                            <input type="date" class="form-control" id="turno-orden">
+                        </div>
+                        <div class="mb-3">
                             <label for="estado-orden" class="form-label">Estado:</label>
                             <select class="form-select" id="estado-orden" required>
                                 <option value="">Seleccione un estado</option>
@@ -448,6 +422,7 @@
                                 <option value="Cancelado">Cancelado</option>
                             </select>
                         </div>
+
                         <div class="mb-3">
                             <label for="observaciones-mecanico" class="form-label">Observaciones del Mecánico:</label>
                             <textarea class="form-control" id="observaciones-mecanico" rows="3"></textarea>
@@ -468,7 +443,6 @@
         </div>
     </div>
 
-    <!-- Agregar esta sección después de la sección de taller -->
     <div class="container mt-5 pt-5" id="vehiculos-section">
         <h2>Control de Stock de Vehículos</h2>
         <div class="vehiculos-actions mb-3 d-flex align-items-center">
@@ -489,17 +463,16 @@
                         <th>Precio</th>
                         <th>Estado</th>
                         <th>Patente</th>
+                        <th>Imagen</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tabla-vehiculos-body">
-                    <!-- Los vehículos se cargarán aquí dinámicamente -->
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal para nuevo/editar vehículo -->
     <div class="modal fade" id="nuevoVehiculoModal" tabindex="-1" aria-labelledby="nuevoVehiculoModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -587,6 +560,16 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="imagen-input-file" class="form-label">Subir Imagen:</label>
+                            <input type="file" class="form-control" id="imagen-input-file" accept="image/*">
+                            <div class="mt-2" id="imagen-preview-container" style="display: none;">
+                                <img id="imagen-preview" src="#" alt="Vista previa de la imagen"
+                                    style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción/Detalles:</label>
                             <textarea class="form-control" id="descripcion" rows="3"></textarea>
                         </div>
@@ -602,33 +585,65 @@
     </div>
 
     <div class="container mt-5 pt-5" id="accesorios-section">
-        <h2>Listado de Ventas de Accesorios</h2>
-        <div class="acciones-superiores d-flex align-items-center mb-3">
-            <button class="btn btn-primary btn-sm" id="nueva-venta-accesorios">Nueva Venta</button>
-            <input type="text" class="form-control form-control-sm w-25" id="filtro-ventas-accesorios"
-                placeholder="Filtrar por Cliente/Remito">
+        <h2>Gestión de Accesorios</h2>
+        <div class="d-flex align-items-center mb-3">
+            <div class="btn-group me-3" role="group" aria-label="Accesorios View Toggle">
+                <button type="button" class="btn btn-outline-primary active" id="btn-ventas-accesorios">Ventas
+                    Accesorios</button>
+                <button type="button" class="btn btn-outline-primary" id="btn-stock-accesorios">Stock
+                    Accesorios</button>
+            </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-striped" id="tabla-accesorios">
-                <thead>
-                    <tr>
-                        <th>N° Remito</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-accesorios-body">
-                    <!-- Datos se cargarán aquí -->
-                </tbody>
-            </table>
+        <div id="ventas-accesorios-content">
+            <div class="ventas-actions mb-3 d-flex align-items-center">
+                <button class="btn btn-primary btn-sm me-2" id="nueva-venta-accesorios">Nueva Venta</button>
+                <input type="text" class="form-control form-control-sm w-25" id="filtro-ventas-accesorios"
+                    placeholder="Filtrar por Cliente/Remito">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped" id="tabla-accesorios">
+                    <thead>
+                        <tr>
+                            <th>N° Remito</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-accesorios-body">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Modal para nueva venta -->
+        <div id="stock-accesorios-content" style="display: none;">
+            <div class="stock-actions mb-3 d-flex align-items-center">
+                <button class="btn btn-primary btn-sm me-2" id="nuevo-accesorio">Nuevo Accesorio</button>
+                <input type="text" class="form-control form-control-sm w-25" id="filtro-stock-accesorios"
+                    placeholder="Filtrar por nombre o código">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped" id="tabla-stock-accesorios">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-stock-accesorios-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="modal fade" id="nuevaVentaAccesoriosModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -695,7 +710,6 @@
             </div>
         </div>
 
-        <!-- Modal para ver detalles -->
         <div class="modal fade" id="detallesVentaModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -704,10 +718,57 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="detalles-venta-body">
-                        <!-- Los detalles se cargarán aquí dinámicamente -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="nuevoAccesorioModal" tabindex="-1" aria-labelledby="nuevoAccesorioModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevoAccesorioModalLabel">Registrar Nuevo Accesorio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-nuevo-accesorio">
+                            <input type="hidden" id="accesorio-id-oculto">
+                            <div class="mb-3">
+                                <label for="codigo-accesorio" class="form-label">Código:</label>
+                                <input type="text" class="form-control" id="codigo-accesorio" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre-accesorio" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre-accesorio" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cantidad-accesorio" class="form-label">Cantidad:</label>
+                                <input type="number" class="form-control" id="cantidad-accesorio" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="precio-unitario-accesorio" class="form-label">Precio Unitario ($):</label>
+                                <input type="number" class="form-control" id="precio-unitario-accesorio" min="0"
+                                    step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen-accesorio-input-file" class="form-label">Subir Imagen:</label>
+                                <input type="file" class="form-control" id="imagen-accesorio-input-file"
+                                    accept="image/*">
+                                <div class="mt-2" id="imagen-accesorio-preview-container" style="display: none;">
+                                    <img id="imagen-accesorio-preview" src="#"
+                                        alt="Vista previa de la imagen del accesorio"
+                                        style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="guardar-accesorio">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -722,9 +783,12 @@
     <script src="js/ventas.js"></script>
     <script src="js/taller.js"></script>
     <script src="js/vehiculos.js"></script>
-    <script src="js/accesorios.js"></script>
-    <script src="js/menu.js"></script> <!-- Modificado para la lógica de roles -->
+    <script src="js/accesorios-venta.js"></script>
+    <script src="js/stock-accesorios.js"></script>
+    <script src="js/menu.js"></script>
+</body>
 
+</html>
 </body>
 
 </html>

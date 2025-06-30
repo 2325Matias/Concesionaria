@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             vehiculoModelo: 'Clio',
             vehiculoPatente: 'ABC123',
             vehiculoKilometraje: 85000,
+            turno: '2025-07-10', // Added turno
             estadoOrden: 'Completado',
             observacionesMecanico: 'Se realizó el cambio de aceite y filtro. Neumáticos revisados, presión correcta.',
             mecanicoAsignado: 'Roberto Pérez'
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             vehiculoModelo: 'Cronos',
             vehiculoPatente: 'DEF456',
             vehiculoKilometraje: 30000,
+            turno: '2025-07-15', // Added turno
             estadoOrden: 'En Proceso',
             observacionesMecanico: 'Pastillas de freno delanteras desgastadas. Se solicitó reemplazo.',
             mecanicoAsignado: 'Marta Díaz'
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputTallerVehiculoPatente = document.getElementById('taller-vehiculo-patente');
     const inputTallerVehiculoKilometraje = document.getElementById('taller-vehiculo-kilometraje');
 
+    const inputTurnoOrden = document.getElementById('turno-orden'); // New: Get the turno input
     const selectEstadoOrden = document.getElementById('estado-orden');
     const inputObservacionesMecanico = document.getElementById('observaciones-mecanico');
     const inputMecanicoAsignado = document.getElementById('mecanico-asignado');
@@ -80,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             vehiculoModelo: inputTallerVehiculoModelo.value.trim(),
             vehiculoPatente: inputTallerVehiculoPatente.value.trim(),
             vehiculoKilometraje: inputTallerVehiculoKilometraje.value ? parseInt(inputTallerVehiculoKilometraje.value) : null,
+            turno: inputTurnoOrden.value, // New: Get turno value
             estadoOrden: selectEstadoOrden.value,
             observacionesMecanico: inputObservacionesMecanico.value.trim(),
             mecanicoAsignado: inputMecanicoAsignado.value.trim()
@@ -89,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateWorkshopOrderForm(order) {
         if (!order.nOrden || !order.problemaReportado || !order.clienteNombreCompleto || !order.clienteDNI ||
             !order.clienteCorreo || !order.clienteTelefono || !order.vehiculoMarca || !order.vehiculoModelo ||
-            !order.vehiculoPatente || !order.estadoOrden) {
-            alert('Por favor, completa todos los campos obligatorios para la orden de taller.');
+            !order.vehiculoPatente || !order.estadoOrden || !order.turno) { // Added !order.turno
+            alert('Por favor, completa todos los campos obligatorios para la orden de taller, incluyendo el día del turno.'); // Updated alert message
             return false;
         }
         return true;
@@ -121,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (ordenesFiltradas.length === 0 && textoFiltro !== '') {
             const noResultsRow = tablaOrdenesBody.insertRow();
-            noResultsRow.innerHTML = `<td colspan="5" class="text-center">No se encontraron órdenes de taller que coincidan con la búsqueda.</td>`;
+            noResultsRow.innerHTML = `<td colspan="6" class="text-center">No se encontraron órdenes de taller que coincidan con la búsqueda.</td>`; // Changed colspan to 6
             return;
         }
 
@@ -132,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${order.clienteNombreCompleto}</td>
                 <td>${order.vehiculoMarca} ${order.vehiculoModelo} (${order.vehiculoPatente})</td>
                 <td>${order.estadoOrden}</td>
-                <td>
+                <td>${order.turno}</td> <td>
                     <button class="btn btn-info btn-sm me-1 ver-detalles-orden" data-id="${order.id}">Ver</button>
                     <button class="btn btn-warning btn-sm me-1 editar-orden" data-id="${order.id}">Modificar</button>
                     <button class="btn btn-danger btn-sm eliminar-orden" data-id="${order.id}">Eliminar</button>
@@ -160,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     inputTallerVehiculoModelo.value = selectedOrder.vehiculoModelo;
                     inputTallerVehiculoPatente.value = selectedOrder.vehiculoPatente;
                     inputTallerVehiculoKilometraje.value = selectedOrder.vehiculoKilometraje;
+                    inputTurnoOrden.value = selectedOrder.turno; // New: Set turno value
                     selectEstadoOrden.value = selectedOrder.estadoOrden;
                     inputObservacionesMecanico.value = selectedOrder.observacionesMecanico;
                     inputMecanicoAsignado.value = selectedOrder.mecanicoAsignado;
@@ -190,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     inputTallerVehiculoModelo.value = selectedOrder.vehiculoModelo;
                     inputTallerVehiculoPatente.value = selectedOrder.vehiculoPatente;
                     inputTallerVehiculoKilometraje.value = selectedOrder.vehiculoKilometraje;
+                    inputTurnoOrden.value = selectedOrder.turno; // New: Set turno value
                     selectEstadoOrden.value = selectedOrder.estadoOrden;
                     inputObservacionesMecanico.value = selectedOrder.observacionesMecanico;
                     inputMecanicoAsignado.value = selectedOrder.mecanicoAsignado;
@@ -218,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     botonNuevaOrden.addEventListener('click', () => {
         formNuevaOrden.reset();
         selectEstadoOrden.value = ''; // Limpiar select
+        inputTurnoOrden.value = ''; // New: Clear turno input
         modalTitleNuevaOrden.textContent = 'Registrar Nueva Orden de Taller';
         botonGuardarCambiosOrden.style.display = 'block';
         botonCerrarOrdenModal.style.display = 'block';
