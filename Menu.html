@@ -65,6 +65,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>Imagen</th> 
                         <th>Usuario</th>
                         <th>Correo</th>
                         <th>Contraseña</th>
@@ -102,12 +103,19 @@
                                 <label for="editar-rol" class="form-label">Rol:</label>
                                 <select class="form-select" id="editar-rol" required>
                                     <option value="">Seleccione un rol</option>
-                                    <option value="Administrativo">Administrativo</option>
+                                    <option value="Administrador">Administrador</option>
                                     <option value="Mecánico">Mecánico</option>
                                     <option value="Recepcionista">Recepcionista</option>
-                                    <option value="Vendedor-Auto">Vendedor-Auto</option>
-                                    <option value="Vendedor-Accesorio">Vendedor-Accesorio</option>
+                                    <option value="Vendedor">Vendedor</option>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editar-imagen-empleado-input-file" class="form-label">Imagen:</label>
+                                <input type="file" class="form-control" id="editar-imagen-empleado-input-file" accept="image/*">
+                                <div class="mt-2" id="editar-imagen-empleado-preview-container" style="display: none;">
+                                    <img id="editar-imagen-empleado-preview" src="#" alt="Vista previa de la imagen del empleado"
+                                        style="max-width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -150,6 +158,14 @@
                                     <option value="Recepcionista">Recepcionista</option>
                                     <option value="Vendedor">Vendedor</option>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-imagen-empleado-input-file" class="form-label">Imagen:</label>
+                                <input type="file" class="form-control" id="agregar-imagen-empleado-input-file" accept="image/*">
+                                <div class="mt-2" id="agregar-imagen-empleado-preview-container" style="display: none;">
+                                    <img id="agregar-imagen-empleado-preview" src="#" alt="Vista previa de la imagen del empleado"
+                                        style="max-width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -786,9 +802,6 @@
     <script src="js/accesorios-venta.js"></script>
     <script src="js/stock-accesorios.js"></script>
     <script src="js/menu.js"></script>
-</body>
-
-</html>
 </body>
 
 </html>
